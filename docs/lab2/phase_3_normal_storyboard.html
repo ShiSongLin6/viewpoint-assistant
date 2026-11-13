@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 3 · Normal Interaction Storyboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .frame-card {
+      transition: all 0.25s ease-in-out;
+    }
+    .frame-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    }
+    .ui-mockup-bg {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 md:p-10">
+    
+    <!-- Header Controls & Student ID -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 mb-8 gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Phase 3</span>
+          <span id="student-id-tag" class="text-xs text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded"></span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Normal Interaction Storyboard</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Step-by-step sequence of successful camera viewpoint assistance</p>
+      </div>
+
+      <!-- ID Toggle Button -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleID()" class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-id-card text-blue-500"></i>
+          <span id="toggle-text">Hide ID on Image</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4-Frame Storyboard Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- ================= FRAME 1 ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 1 — Submit Prompt</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md">Input Phase</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative overflow-hidden">
+            <div class="flex items-center justify-between text-[10px] text-slate-400 mb-2 border-b border-slate-800 pb-1.5">
+              <span>AI Image Studio v2.0</span>
+              <span class="text-emerald-400"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Ready</span>
+            </div>
+            <!-- Prompt Box Input Mock -->
+            <div class="bg-slate-800/90 rounded-lg p-2.5 mb-2.5 border border-slate-700 text-slate-200 font-mono text-[11px] flex justify-between items-center">
+              <span>"A cat sitting on carpet, <span class="text-amber-300 font-bold underline">top-down angle</span>..."</span>
+              <span class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] px-2 py-1 rounded font-sans font-medium flex items-center gap-1 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate
+              </span>
+            </div>
+            <!-- Generating Placeholder Image -->
+            <div class="h-28 bg-slate-800/40 border border-dashed border-slate-700 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1.5">
+              <i class="fa-solid fa-spinner animate-spin text-blue-400 text-base"></i>
+              <span class="text-[10px]">Generating first draft...</span>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Writes a prompt containing an angle word ("top-down"), then presses Generate.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Makes a first draft; reads prompt and generated image to judge viewpoint.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">A first draft image rendering on screen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 2 ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 2 — Mismatch Detection</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">Sense & Suggest</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="flex gap-2">
+              <!-- Left: Draft Image -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-slate-700 relative overflow-hidden">
+                <i class="fa-solid fa-cat text-3xl text-slate-500 mb-1"></i>
+                <span class="text-[9px] text-slate-400">First Draft (Eye-level view)</span>
+              </div>
+              <!-- Right: Viewpoint Panel Popup -->
+              <div class="w-1/3 bg-slate-800/90 p-2 rounded-lg border border-amber-500/40 flex flex-col justify-between">
+                <div>
+                  <div class="text-[9px] font-bold text-slate-300 mb-1 flex items-center justify-between">
+                    <span>Viewpoint Panel</span>
+                  </div>
+                  <span class="bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded border border-amber-500/30 block mb-1">
+                    Tag: Eye-Level
+                  </span>
+                  <p class="text-[8px] text-slate-400 leading-tight">Prompt asked for top-down.</p>
+                </div>
+                <button class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-[9px] py-1 px-1.5 rounded transition-colors text-center w-full mt-1">
+                  💡 Switch to Top-Down
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Looks at the draft image and checks the viewpoint.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Labels detected angle; on mismatch, displays a change-angle suggestion.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">A small angle tag ("Eye-Level") and a suggestion button ("Switch to Top-Down").</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 3 ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 3 — One-Tap Angle Adjustment</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-md">User Action</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="flex gap-2">
+              <!-- Left: Image Regenerating -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-blue-500/50 relative">
+                <i class="fa-solid fa-rotate text-2xl text-blue-400 animate-spin mb-1"></i>
+                <span class="text-[9px] text-blue-300">Adjusting camera to Top-Down...</span>
+              </div>
+              <!-- Right: Active Viewpoint Dial/Buttons -->
+              <div class="w-1/3 bg-slate-800 p-2 rounded-lg border border-slate-700 flex flex-col gap-1">
+                <span class="text-[8px] text-slate-400 font-bold">Angle Presets:</span>
+                <button class="bg-slate-700 text-slate-300 text-[8px] py-0.5 rounded">Eye-Level</button>
+                <button class="bg-blue-600 text-white font-bold text-[8px] py-0.5 rounded ring-1 ring-blue-300 flex items-center justify-between px-1">
+                  <span>Top-Down</span> <i class="fa-solid fa-check text-[7px]"></i>
+                </button>
+                <button class="bg-slate-700 text-slate-300 text-[8px] py-0.5 rounded">Side View</button>
+                <button class="bg-slate-700 text-slate-300 text-[8px] py-0.5 rounded">45° Angle</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Taps the desired angle button ("Top-Down") in the side panel.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Regenerates image specifically at that camera viewpoint.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">A new image with a significantly more accurate top-down camera angle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 4 ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 4 — Confirmation & Save</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">Goal Achieved</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="flex gap-2">
+              <!-- Left: Accurate Rendered Image -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-emerald-500/60 relative overflow-hidden">
+                <i class="fa-solid fa-cat text-3xl text-emerald-400 mb-1"></i>
+                <span class="text-[9px] text-emerald-300 font-medium">Top-down view confirmed!</span>
+                <div class="absolute top-1.5 right-1.5 bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-[8px] px-1.5 py-0.5 rounded-full">
+                  <i class="fa-solid fa-check mr-0.5"></i> Match
+                </div>
+              </div>
+              <!-- Right: Completion Controls -->
+              <div class="w-1/3 bg-slate-800 p-2 rounded-lg border border-slate-700 flex flex-col justify-between">
+                <div>
+                  <span class="text-[9px] font-bold text-emerald-400 block mb-1">Status: Success</span>
+                  <p class="text-[8px] text-slate-400">Angle matches prompt accurately.</p>
+                </div>
+                <button class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[9px] py-1.5 px-2 rounded transition-colors text-center w-full flex items-center justify-center gap-1 shadow-sm">
+                  <i class="fa-solid fa-download"></i> Save Image
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Confirms satisfaction and clicks Save / Export.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Signals completion and saves final image file.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">Finished image with correct, photorealistic angle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Summary Bar -->
+    <div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+      <div class="flex items-center gap-3">
+        <span class="font-semibold text-slate-700">Lab 2 Storyboard Standard:</span>
+        <span class="text-slate-500">Person Does &rarr; System Does &rarr; Person Sees</span>
+      </div>
+      <div class="font-mono text-[11px] text-slate-400">
+        4-Frame Sequence Complete
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    function toggleID() {
+      const tag = document.getElementById('student-id-tag');
+      const btnText = document.getElementById('toggle-text');
+      if (tag.classList.contains('hidden')) {
+        tag.classList.remove('hidden');
+        btnText.innerText = "Hide ID on Image";
+      } else {
+        tag.classList.add('hidden');
+        btnText.innerText = "Show ID on Image";
+      }
+    }
+  </script>
+</body>
+</html>

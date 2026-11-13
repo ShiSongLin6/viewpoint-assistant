@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>360° Spherical Viewpoint Controller — Lab 3 Prototype</title>
+<style>
+  :root{
+    --ink:#1f2329; --sub:#646a73; --line:#dde1e6; --bg:#ffffff;
+    --purple:#6b46c1; --purple-bg:#f2ecfb;
+    --amber:#9a6a1a; --amber-bg:#fff8ec;
+    --green:#2f7a55; --green-bg:#eef7f0;
+    --muted:#f6f8fa;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Arial,"Microsoft YaHei",sans-serif;color:var(--ink);background:#fafbfc;}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 20px 40px;}
+  h1{font-size:20px;margin:0 0 4px;}
+  .note{color:var(--sub);font-size:13px;margin:0 0 16px;}
+  .mock-flag{display:inline-block;background:var(--amber-bg);color:var(--amber);border:1px solid #e6c98a;border-radius:6px;font-size:12px;font-weight:bold;padding:2px 8px;margin-right:8px;}
+  .real-flag{display:inline-block;background:var(--green-bg);color:var(--green);border:1px solid #9ccfb4;border-radius:6px;font-size:12px;font-weight:bold;padding:2px 8px;}
+  .stage{display:grid;grid-template-columns:500px 1fr;gap:22px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .sphere-panel{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff;}
+  canvas{display:block;width:100%;height:auto;cursor:grab;touch-action:none;border-radius:8px;}
+  canvas.dragging{cursor:grabbing;}
+  .hint{font-size:12px;color:var(--sub);margin:6px 4px 0;}
+  .panel{display:flex;flex-direction:column;gap:14px;}
+  .readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .stat{background:var(--purple-bg);border:1px solid #d9ccf2;border-radius:10px;padding:10px 12px;}
+  .stat .k{font-size:12px;color:var(--sub);}
+  .stat .v{font-size:24px;font-weight:bold;color:var(--purple);font-variant-numeric:tabular-nums;}
+  .plain{background:var(--muted);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;}
+  .plain b{color:var(--purple);}
+  .row{display:flex;flex-wrap:wrap;gap:8px;}
+  button{font-family:inherit;font-size:13px;border:1px solid #c9d1d9;background:#fff;color:var(--ink);border-radius:8px;padding:7px 11px;cursor:pointer;}
+  button:hover{background:#f0f2f5;}
+  button.primary{background:var(--purple);border-color:var(--purple);color:#fff;}
+  button.primary:hover{background:#5a3aa8;}
+  button.ghost{background:transparent;}
+  .seclabel{font-size:12px;font-weight:bold;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;}
+  .disc-wrap{display:flex;gap:16px;align-items:center;}
+  .disc-wrap button{flex:0 0 auto;}
+  .status{min-height:44px;border-radius:10px;padding:10px 12px;font-size:13px;background:var(--muted);border:1px solid var(--line);color:var(--sub);}
+  .status.warn{background:var(--amber-bg);border-color:#e6c98a;color:#7a5410;}
+  .status.ok{background:var(--green-bg);border-color:#9ccfb4;color:var(--green);}
+  .status b{color:inherit;}
+  input[type=range]{width:100%;accent-color:var(--purple);height:24px;margin:0;}
+  .sliderrow{display:flex;flex-direction:column;gap:2px;}
+  .slbl{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-top:10px;}
+  .slbl:first-child{margin-top:0;}
+  .footer{margin-top:14px;font-size:12px;color:var(--sub);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:10px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>360° Spherical Viewpoint Controller</h1>
+  <p class="note">
+    <span class="real-flag">IMPLEMENTED</span> draggable sphere · azimuth θ / elevation φ · presets · confirm / undo
+    <span class="mock-flag" style="margin-left:8px">[MOCKED]</span> the text-to-image model and the viewpoint detector are not real — this prototype only demonstrates the viewpoint input and fallback interaction for Lab 3.
+  </p>
+
+  <div class="stage">
+    <div class="sphere-panel">
+      <canvas id="sphere" width="460" height="460"></canvas>
+      <p class="hint">Drag the camera marker anywhere on the sphere: horizontal = azimuth (θ), vertical = elevation (φ). The subject sits at the centre.</p>
+      <div class="legend">
+        <span><i class="dot" style="background:#6b46c1"></i>camera position (front hemisphere)</span>
+        <span><i class="dot" style="background:#c9b8e8"></i>back hemisphere</span>
+        <span><i class="dot" style="background:#e0a93b"></i>candidate (ambiguous fallback)</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="readout">
+        <div class="stat"><div class="k">Azimuth θ</div><div class="v" id="thetaVal">0°</div></div>
+        <div class="stat"><div class="k">Elevation φ</div><div class="v" id="phiVal">0°</div></div>
+      </div>
+
+      <div class="plain">Plain-language angle: <b id="plainAngle">eye-level, front view</b></div>
+
+      <div>
+        <div class="seclabel">Fine-tune (sliders)</div>
+        <div class="sliderrow">
+          <div class="slbl"><span>Azimuth θ (0–360°)</span><span id="thetaSlideVal">40°</span></div>
+          <input type="range" id="thetaSlide" min="0" max="360" step="1" value="40" aria-label="Azimuth theta">
+          <div class="slbl"><span>Elevation φ (−90° to +90°)</span><span id="phiSlideVal">20°</span></div>
+          <input type="range" id="phiSlide" min="-90" max="90" step="1" value="20" aria-label="Elevation phi">
+        </div>
+      </div>
+
+      <div>
+        <div class="seclabel">Presets (shortcuts)</div>
+        <div class="row">
+          <button onclick="setAngle(0,90)">Top-down</button>
+          <button onclick="setAngle(0,0)">Side / eye-level</button>
+          <button onclick="setAngle(0,45)">45° front</button>
+          <button onclick="setAngle(0,15)">Close-up*</button>
+        </div>
+        <div class="hint">*close-up is a distance, not an angle; the sphere controls angle only.</div>
+      </div>
+
+      <div>
+        <div class="seclabel">Test B — ambiguous prompt fallback</div>
+        <div class="row">
+          <button class="primary" onclick="testB()">“looking down at it from the stage”</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="seclabel">Confirm &amp; correct</div>
+        <div class="row">
+          <button class="primary" onclick="confirmAngle()">Confirm angle → generate</button>
+          <button class="ghost" onclick="undo()">Undo</button>
+          <button class="ghost" onclick="resetAll()">Reset</button>
+        </div>
+      </div>
+
+      <div class="status" id="status">Idle. Drag the camera marker or choose a preset. The image is never generated until you confirm.</div>
+    </div>
+  </div>
+
+  <p class="footer">Lab 3 interactive prototype (self-contained HTML/CSS/JS, no API key, works offline). The simulated generation request would send the camera parameters to a text-to-image model — that step is <b>[MOCKED]</b>.</p>
+</div>
+
+<script>
+const canvas = document.getElementById('sphere');
+const ctx = canvas.getContext('2d');
+const W = 460, H = 460, CX = 230, CY = 225, R = 165;
+let theta = 40;     // azimuth degrees, 0 = front (initialised off-centre so the marker is visible)
+let phi = 20;       // elevation degrees, +90 top, -90 bottom
+let history = [];
+let candidates = [];
+let warnMode = false;
+
+function norm(t){ t = t % 360; if (t < 0) t += 360; return t; }
+function clampP(p){ return Math.max(-90, Math.min(90, p)); }
+function toXYZ(t, p){
+  const tr = t*Math.PI/180, pr = p*Math.PI/180;
+  return { x: R*Math.cos(pr)*Math.sin(tr),
+           y: R*Math.sin(pr),
+           z: R*Math.cos(pr)*Math.cos(tr) };
+}
+function plain(t, p){
+  let elev;
+  const a = Math.abs(p);
+  if (a >= 80) elev = p > 0 ? 'top-down' : 'bottom-up';
+  else if (a >= 50) elev = (p>0?'high':'low') + ' angle';
+  else if (a >= 10) elev = (p>0?'slightly high':'slightly low') + ' angle';
+  else elev = 'eye-level';
+  let dir;
+  let t2 = norm(t);
+  if (t2 <= 22.5 || t2 >= 337.5) dir = 'front';
+  else if (t2 <= 67.5) dir = 'front-right';
+  else if (t2 <= 112.5) dir = 'right side';
+  else if (t2 <= 157.5) dir = 'back-right';
+  else if (t2 <= 202.5) dir = 'back';
+  else if (t2 <= 247.5) dir = 'back-left';
+  else if (t2 <= 292.5) dir = 'left side';
+  else dir = 'front-left';
+  return elev + ', ' + dir + ' view';
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // sphere outline
+  ctx.strokeStyle = '#c9d1d9'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.stroke();
+  // latitude / longitude wireframe
+  ctx.strokeStyle = '#e6e9ee'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.ellipse(CX,CY,R,R*0.22,0,0,Math.PI*2); ctx.stroke();        // equator
+  ctx.beginPath(); ctx.ellipse(CX,CY,R*0.55,R,0,0,Math.PI*2); ctx.stroke();         // meridian
+  ctx.beginPath(); ctx.ellipse(CX,CY,R*0.15,R,0,0,Math.PI*2); ctx.stroke();
+  [45,-45].forEach(pr=>{
+    const y = R*Math.sin(pr*Math.PI/180), rr = R*Math.cos(pr*Math.PI/180);
+    ctx.beginPath(); ctx.ellipse(CX,CY-y,rr,rr*0.22,0,0,Math.PI*2); ctx.stroke();
+  });
+  // axis poles
+  ctx.fillStyle = '#b6bcc4';
+  ctx.beginPath(); ctx.arc(CX,CY-R,3,0,Math.PI*2); ctx.fill();
+  ctx.font = '11px Segoe UI'; ctx.fillStyle = '#9aa2ab';
+  ctx.fillText('top (φ=+90°)', CX+8, CY-R+2);
+  ctx.fillText('bottom (φ=−90°)', CX+8, CY+R+4);
+
+  // subject at centre
+  ctx.font = '30px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('🐱', CX, CY);
+  ctx.font = '11px Segoe UI'; ctx.fillStyle = '#9aa2ab';
+  ctx.fillText('subject (centre)', CX, CY+26);
+
+  // candidate points (ambiguous fallback)
+  candidates.forEach(c=>{
+    const p = toXYZ(c.t,c.p);
+    const sx = CX+p.x, sy = CY-p.y;
+    ctx.strokeStyle = '#e0a93b'; ctx.setLineDash([4,3]); ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(sx,sy,12,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // camera marker
+  const p = toXYZ(theta,phi);
+  const sx = CX+p.x, sy = CY-p.y;
+  const front = p.z >= 0;
+  // view ray
+  ctx.strokeStyle = front ? '#d9ccf2' : '#ece6f7';
+  ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(CX,CY); ctx.lineTo(sx,sy); ctx.stroke();
+  // marker (scaled by depth: closer to viewer = larger)
+  const depth = (p.z + R) / (2*R);                  // 0 back .. 1 front
+  const rad = 7 + depth*6;
+  // when the marker projects almost on the centre (viewing straight at it),
+  // add a ring on the sphere rim in the facing direction as a cue
+  const dist = Math.hypot(sx-CX, sy-CY);
+  if (dist < 26){
+    const rim = front ? 1 : -1;
+    ctx.strokeStyle = front ? '#6b46c1' : '#c9b8e8'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(CX, CY, R+10, -Math.PI/2-0.12, -Math.PI/2+0.12); ctx.stroke();
+    ctx.fillStyle = front ? '#6b46c1' : '#c9b8e8'; ctx.font='11px Segoe UI';
+    ctx.fillText(front ? 'camera here (front)' : 'camera (far side)', CX-52, CY-R-18);
+  }
+  ctx.fillStyle = front ? '#6b46c1' : '#c9b8e8';
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(sx,sy,rad,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.font = (Math.round(rad*1.1)+'px serif');
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('📷', sx, sy);
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+
+  // update readouts
+  document.getElementById('thetaVal').textContent = Math.round(norm(theta))+'°';
+  document.getElementById('phiVal').textContent = Math.round(phi)+'°';
+  document.getElementById('plainAngle').textContent = plain(theta,phi);
+  // keep sliders in sync
+  document.getElementById('thetaSlide').value = Math.round(norm(theta));
+  document.getElementById('phiSlide').value = Math.round(phi);
+  document.getElementById('thetaSlideVal').textContent = Math.round(norm(theta))+'°';
+  document.getElementById('phiSlideVal').textContent = Math.round(phi)+'°';
+}
+
+function pushHistory(){ history.push({theta:theta, phi:phi}); if(history.length>40) history.shift(); }
+function setAngle(t,p){ pushHistory(); warnMode=false; candidates=[]; theta=norm(t); phi=clampP(p); draw(); setStatus('Preset selected: <b>'+plain(theta,phi)+'</b>. Confirm to generate, or drag to fine-tune.',''); }
+function setStatus(html, kind){ const s=document.getElementById('status'); s.className='status'+(kind?' '+kind:''); s.innerHTML=html; }
+function undo(){ if(!history.length){ setStatus('Nothing to undo.',''); return; } const h=history.pop(); theta=h.theta; phi=h.phi; draw(); setStatus('Undone to <b>'+plain(theta,phi)+'</b>.',''); }
+function resetAll(){ pushHistory(); theta=0; phi=0; warnMode=false; candidates=[]; draw(); setStatus('Reset.',''); }
+function testB(){
+  pushHistory();
+  warnMode = true;
+  candidates = [{t:0,p:55},{t:340,p:48},{t:20,p:60}];
+  draw();
+  setStatus('<b>[MOCKED] Ambiguous phrase detected:</b> “looking down at it from the stage” cannot be mapped to one angle. Please point at the camera position on the sphere (amber candidates are suggestions), then confirm.','warn');
+}
+function confirmAngle(){
+  warnMode = false;
+  const t = Math.round(norm(theta)), p = Math.round(phi);
+  candidates = []; draw();
+  setStatus('<b>[MOCKED] Generation request sent:</b> camera azimuth θ = '+t+'°, elevation φ = '+p+'° ('+plain(t,p)+'). Preview confirmed; the text-to-image model would regenerate here.','ok');
+}
+
+// drag on sphere: horizontal -> theta, vertical -> phi
+let dragging=false, lastX=0, lastY=0;
+function pos(e){ const r=canvas.getBoundingClientRect(); const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; return {x:x*W/r.width, y:y*H/r.height}; }
+function down(e){ dragging=true; canvas.classList.add('dragging'); const q=pos(e); lastX=q.x; lastY=q.y; pushHistory(); e.preventDefault(); }
+function move(e){ if(!dragging) return; const q=pos(e); const dx=q.x-lastX, dy=q.y-lastY; lastX=q.x; lastY=q.y;
+  theta=norm(theta+dx*0.45); phi=clampP(phi-dy*0.45); warnMode=false; candidates=[]; draw(); e.preventDefault(); }
+function up(){ dragging=false; canvas.classList.remove('dragging'); }
+canvas.addEventListener('mousedown',down); window.addEventListener('mousemove',move); window.addEventListener('mouseup',up);
+canvas.addEventListener('touchstart',down,{passive:false}); window.addEventListener('touchmove',move,{passive:false}); window.addEventListener('touchend',up);
+
+// sliders: live update without history spam; one undo step per completed drag
+const thetaSlide = document.getElementById('thetaSlide');
+const phiSlide = document.getElementById('phiSlide');
+function slideMove(){
+  theta = norm(parseFloat(thetaSlide.value));
+  phi = clampP(parseFloat(phiSlide.value));
+  warnMode = false; candidates = [];
+  draw();
+}
+let slideStart = null;
+[thetaSlide, phiSlide].forEach(s=>{
+  s.addEventListener('pointerdown',()=>{ slideStart = {theta:theta, phi:phi}; });
+  s.addEventListener('keydown',()=>{ if(!slideStart) slideStart = {theta:theta, phi:phi}; });
+  s.addEventListener('input',slideMove);
+  s.addEventListener('change',()=>{
+    if(slideStart){ history.push(slideStart); slideStart=null; }
+    setStatus('Fine-tuned with sliders: <b>'+plain(theta,phi)+'</b>. Confirm to generate.','');
+  });
+});
+
+draw();
+</script>
+</body>
+</html>
