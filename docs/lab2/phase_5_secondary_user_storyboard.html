@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 5 · Secondary User Storyboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .frame-card {
+      transition: all 0.25s ease-in-out;
+    }
+    .frame-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    }
+    .ui-mockup-bg {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 md:p-10">
+    
+    <!-- Header Controls & Student ID -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 mb-6 gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Phase 5</span>
+          <span id="student-id-tag" class="text-xs text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded"></span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Secondary User Storyboard & Adaptation</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Adapting interaction for first-time / non-technical users to ensure error recovery</p>
+      </div>
+
+      <!-- ID Toggle Button -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleID()" class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-id-card text-purple-500"></i>
+          <span id="toggle-text">Hide ID on Image</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Secondary User Guidance Banner -->
+    <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-2xl p-4 md:p-5 mb-8 shadow-md">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="border-b md:border-b-0 md:border-r border-purple-700/60 pb-3 md:pb-0 md:pr-4">
+          <span class="text-purple-300 font-semibold uppercase tracking-wider text-[10px] block mb-1">Target Secondary User</span>
+          <p class="font-medium text-slate-100">First-time user who has never used AI image generators and is unfamiliar with technical angle jargon.</p>
+        </div>
+        <div class="border-b md:border-b-0 md:border-r border-purple-700/60 pb-3 md:pb-0 md:pr-4">
+          <span class="text-amber-300 font-semibold uppercase tracking-wider text-[10px] block mb-1"><i class="fa-solid fa-circle-question mr-1"></i> Design Check Chosen</span>
+          <p class="font-bold text-white text-sm">"Can the person correct it?"</p>
+        </div>
+        <div>
+          <span class="text-emerald-300 font-semibold uppercase tracking-wider text-[10px] block mb-1">Key Adaptation Strategy</span>
+          <p class="text-slate-200 leading-snug">Replace technical labels with visual icons + plain language, and add a prominent <strong class="text-emerald-300">"Undo / Not happy"</strong> button.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Focus: Before vs After Transformation (Frame 2 Revised) -->
+    <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-code-compare text-purple-600"></i> Frame 2 Focus: Before vs. After Redesign
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+      <!-- BEFORE CARD -->
+      <div class="frame-card bg-rose-50/50 border border-rose-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3 border-b border-rose-200 pb-2">
+            <span class="font-bold text-rose-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-circle-xmark text-rose-500"></i> Before Redesign (Original Frame 2)
+            </span>
+            <span class="text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded">Unclear / Stuck</span>
+          </div>
+
+          <!-- Mini Wireframe BEFORE -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50">
+            <div class="flex gap-2">
+              <div class="w-1/2 h-32 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-slate-700 text-center p-2">
+                <i class="fa-solid fa-cat text-2xl text-slate-500 mb-1"></i>
+                <span class="text-[8px] text-slate-400">Draft Image</span>
+              </div>
+              <div class="w-1/2 bg-slate-800 p-2 rounded-lg border border-rose-500/50 flex flex-col justify-between">
+                <div>
+                  <span class="text-[8px] text-rose-300 font-bold block mb-1">Jargon Labels:</span>
+                  <div class="space-y-1">
+                    <div class="bg-slate-700 text-[7px] text-slate-300 p-1 rounded">Angle: Orthographic 90°</div>
+                    <div class="bg-slate-700 text-[7px] text-slate-300 p-1 rounded">Camera Azimuth: Top-Down</div>
+                  </div>
+                </div>
+                <div class="text-[8px] text-rose-400 font-medium text-center bg-rose-950/60 border border-rose-800 p-1 rounded">
+                  ⚠️ No obvious Undo button!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Text -->
+          <div class="bg-white p-3 rounded-xl border border-rose-200/80 text-xs">
+            <span class="font-bold text-slate-700 block mb-1"><i class="fa-solid fa-triangle-exclamation text-rose-500 mr-1"></i> Problem:</span>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              Technical angle labels; no undo — newcomer is stuck and unsure if a wrong tap can be reversed.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- AFTER CARD -->
+      <div class="frame-card bg-emerald-50/50 border border-emerald-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3 border-b border-emerald-200 pb-2">
+            <span class="font-bold text-emerald-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-500"></i> After Redesign (Newcomer-Friendly)
+            </span>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Clear Correction Path</span>
+          </div>
+
+          <!-- Mini Wireframe AFTER -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50">
+            <div class="flex gap-2">
+              <div class="w-1/2 h-32 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-slate-700 text-center p-2">
+                <i class="fa-solid fa-cat text-2xl text-emerald-400 mb-1"></i>
+                <span class="text-[8px] text-emerald-300">Draft Image</span>
+              </div>
+              <div class="w-1/2 bg-slate-800 p-2 rounded-lg border border-emerald-500/50 flex flex-col justify-between">
+                <div>
+                  <span class="text-[8px] text-emerald-300 font-bold block mb-1">Visual Presets:</span>
+                  <div class="grid grid-cols-3 gap-1 mb-1 text-center">
+                    <div class="bg-slate-700 p-1 rounded text-[7px] text-slate-200"><i class="fa-solid fa-eye block text-[9px]"></i> Eye-Level</div>
+                    <div class="bg-emerald-600 p-1 rounded text-[7px] text-white font-bold"><i class="fa-solid fa-arrow-down-long block text-[9px]"></i> Overhead</div>
+                    <div class="bg-slate-700 p-1 rounded text-[7px] text-slate-200"><i class="fa-solid fa-arrows-left-right block text-[9px]"></i> Side View</div>
+                  </div>
+                  <p class="text-[7px] text-slate-300 leading-tight">"Look at subject from directly above"</p>
+                </div>
+                <!-- Big Clear Undo / Back Out Button -->
+                <button class="bg-rose-600 hover:bg-rose-500 text-white font-bold text-[8px] py-1 px-1 rounded flex items-center justify-center gap-1 shadow">
+                  <i class="fa-solid fa-rotate-left text-[7px]"></i> Undo / Not Happy
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Text -->
+          <div class="bg-white p-3 rounded-xl border border-emerald-200/80 text-xs">
+            <span class="font-bold text-slate-700 block mb-1"><i class="fa-solid fa-wand-magic-sparkles text-emerald-500 mr-1"></i> Solution:</span>
+            <p class="text-slate-600 leading-relaxed text-[11px]">
+              Plain icons (eye-level / top-down / side view) + one-line explanation + clear "Undo / Not happy" button — understand at a glance, back out after a wrong tap.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Full 4-Frame Sequence for Secondary User -->
+    <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-film text-purple-600"></i> Full Adapted 4-Frame Storyboard Sequence
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- FRAME 1 -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-2 pb-2 border-b border-slate-200">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded bg-purple-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+            <h3 class="font-bold text-slate-800 text-xs">Frame 1 — Plain Text Prompt</h3>
+          </div>
+          <span class="text-[9px] text-purple-700 bg-purple-50 border border-purple-200 px-1.5 py-0.5 rounded">Input</span>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-user text-blue-500 mr-1"></i> Person does:</span>
+            <p class="text-slate-600 text-[11px]">Enters everyday words like "cat seen from above" without technical terminology.</p>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-microchip text-indigo-500 mr-1"></i> System does:</span>
+            <p class="text-slate-600 text-[11px]">Generates initial draft and interprets plain language spatial keywords.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 2 (ADAPTED) -->
+      <div class="frame-card bg-purple-50/60 border border-purple-300 rounded-2xl p-4 ring-2 ring-purple-400/30">
+        <div class="flex items-center justify-between mb-2 pb-2 border-b border-purple-200">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded bg-purple-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+            <h3 class="font-bold text-purple-900 text-xs">Frame 2 — Visual Suggestion + Undo Option</h3>
+          </div>
+          <span class="text-[9px] font-bold text-purple-800 bg-purple-200 px-1.5 py-0.5 rounded">★ Adapted Frame</span>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <div class="bg-white p-2 rounded-lg border border-purple-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-user text-blue-500 mr-1"></i> Person does:</span>
+            <p class="text-slate-600 text-[11px]">Sees simple visual icons and notices the prominent "Undo / Not happy" button.</p>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-purple-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-microchip text-indigo-500 mr-1"></i> System does:</span>
+            <p class="text-slate-600 text-[11px]">Displays plain icon angle previews with plain-language explanations.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 3 -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-2 pb-2 border-b border-slate-200">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded bg-purple-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+            <h3 class="font-bold text-slate-800 text-xs">Frame 3 — Safe One-Tap Correction</h3>
+          </div>
+          <span class="text-[9px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">Action</span>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-user text-blue-500 mr-1"></i> Person does:</span>
+            <p class="text-slate-600 text-[11px]">Taps an angle icon confidently, knowing they can easily undo if dissatisfied.</p>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-microchip text-indigo-500 mr-1"></i> System does:</span>
+            <p class="text-slate-600 text-[11px]">Adjusts camera viewpoint accordingly and keeps an undo state ready.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 4 -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-2 pb-2 border-b border-slate-200">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded bg-purple-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+            <h3 class="font-bold text-slate-800 text-xs">Frame 4 — Confirmed Outcome</h3>
+          </div>
+          <span class="text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Success</span>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-user text-blue-500 mr-1"></i> Person does:</span>
+            <p class="text-slate-600 text-[11px]">Approves the top-down result and saves the final image effortlessly.</p>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-slate-200/80">
+            <span class="font-bold text-slate-700 block text-[10px]"><i class="fa-solid fa-microchip text-indigo-500 mr-1"></i> System does:</span>
+            <p class="text-slate-600 text-[11px]">Saves file and confirms task completion with zero cognitive friction.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Summary Bar -->
+    <div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+      <div class="flex items-center gap-3">
+        <span class="font-semibold text-slate-700">Lab 2 Phase 5 Standard:</span>
+        <span class="text-slate-500">Secondary User &rarr; Design Question Check &rarr; UI Redesign &rarr; Clear Error Recovery</span>
+      </div>
+      <div class="font-mono text-[11px] text-slate-400">
+        Secondary User Storyboard Complete
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    function toggleID() {
+      const tag = document.getElementById('student-id-tag');
+      const btnText = document.getElementById('toggle-text');
+      if (tag.classList.contains('hidden')) {
+        tag.classList.remove('hidden');
+        btnText.innerText = "Hide ID on Image";
+      } else {
+        tag.classList.add('hidden');
+        btnText.innerText = "Show ID on Image";
+      }
+    }
+  </script>
+</body>
+</html>

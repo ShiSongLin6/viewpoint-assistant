@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 4 · Failure & Recovery Storyboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .frame-card {
+      transition: all 0.25s ease-in-out;
+    }
+    .frame-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    }
+    .ui-mockup-bg {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+
+  <!-- Main Container -->
+  <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 md:p-10">
+    
+    <!-- Header Controls & Student ID -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 mb-8 gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Phase 4</span>
+          <span id="student-id-tag" class="text-xs text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded"></span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Failure & Recovery Storyboard</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Step-by-step sequence of system misinference, user recovery, and AI rule adaptation</p>
+      </div>
+
+      <!-- ID Toggle Button -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleID()" class="text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-id-card text-rose-500"></i>
+          <span id="toggle-text">Hide ID on Image</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4-Frame Storyboard Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- ================= FRAME 1: WRONG INFERENCE ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-rose-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 1 — Wrong Inference</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-md">System Error</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative overflow-hidden">
+            <div class="flex gap-2">
+              <!-- Left: Draft Image with Mismatched Inference -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-rose-500/50 relative">
+                <i class="fa-solid fa-cat text-3xl text-slate-400 mb-1 rotate-12"></i>
+                <span class="text-[9px] text-rose-300">Cat turned head (Subject direction)</span>
+              </div>
+              <!-- Right: Misinformed System Suggestion -->
+              <div class="w-1/3 bg-slate-800/90 p-2 rounded-lg border border-rose-500/60 flex flex-col justify-between">
+                <div>
+                  <span class="bg-rose-500/20 text-rose-300 text-[8px] px-1.5 py-0.5 rounded border border-rose-500/40 block mb-1 font-mono">
+                    ⚠️ Inferring Angle
+                  </span>
+                  <p class="text-[8px] text-slate-300 leading-tight">System mistakes subject facing for camera viewpoint.</p>
+                </div>
+                <button class="bg-rose-600 text-white font-bold text-[8px] py-1 px-1 rounded transition-colors text-center w-full">
+                  💡 Rotate Camera 90°
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Taps the suggested "Rotate Camera 90°" button, expecting a top-down view.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-rose-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Mistakes subject orientation for camera viewpoint; cannot render an exact angle.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">Suggestion applied, but result ≠ what user wanted.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 2: PERSON NOTICES ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-amber-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 2 — Person Notices Misalignment</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">Visual Mismatch</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="flex gap-2">
+              <!-- Left: Crooked Image -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-amber-500/60 relative overflow-hidden">
+                <i class="fa-solid fa-cat text-3xl text-amber-400 mb-1 transform -rotate-45"></i>
+                <span class="text-[9px] text-amber-300 font-medium">Image angle looks even more crooked!</span>
+                <div class="absolute top-1.5 right-1.5 bg-amber-500/20 border border-amber-400 text-amber-300 text-[8px] px-1.5 py-0.5 rounded-full">
+                  <i class="fa-solid fa-triangle-exclamation mr-0.5"></i> No Match
+                </div>
+              </div>
+              <!-- Right: Mismatch Status -->
+              <div class="w-1/3 bg-slate-800 p-2 rounded-lg border border-slate-700 flex flex-col justify-between">
+                <div>
+                  <span class="text-[9px] font-bold text-amber-400 block mb-1">Status: Crooked</span>
+                  <p class="text-[8px] text-slate-400 leading-tight">Image no longer matches prompt requirement.</p>
+                </div>
+                <div class="text-[8px] text-rose-400 bg-rose-950/40 border border-rose-800 p-1 rounded">
+                  Prompt: "top-down"<br>Result: 45° Side Tilt
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Inspects the regenerated draft and compares it against original prompt.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Renders an off-target, distorted angle from flawed camera transformation.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">Image angle looks even more crooked and no longer matches prompt.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 3: RECOVERY ACTION ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 3 — User Recovery Action</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded-md">Recovery</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="flex gap-2">
+              <!-- Left: Reverting State -->
+              <div class="w-2/3 h-36 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-indigo-500/50 relative">
+                <i class="fa-solid fa-rotate-left text-2xl text-indigo-400 mb-1 animate-pulse"></i>
+                <span class="text-[9px] text-indigo-300">Reverting to original draft...</span>
+              </div>
+              <!-- Right: Direct Control & Undo Buttons -->
+              <div class="w-1/3 bg-slate-800 p-2 rounded-lg border border-slate-700 flex flex-col gap-1.5 justify-center">
+                <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[8px] py-1 px-1.5 rounded flex items-center justify-center gap-1 shadow">
+                  <i class="fa-solid fa-undo text-[7px]"></i> Undo Suggestion
+                </button>
+                <button class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-[8px] py-1 px-1.5 rounded flex items-center justify-center gap-1">
+                  <i class="fa-solid fa-sliders text-[7px]"></i> Dial Angle Manually
+                </button>
+                <button class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-[8px] py-1 px-1.5 rounded flex items-center justify-center gap-1">
+                  <i class="fa-solid fa-pen text-[7px]"></i> Edit Prompt Text
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Taps Undo, turns viewpoint dial back manually, or edits prompt text.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Reverts flawed transformation and accepts manual control input.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">Previous state restored with manual adjustment options available.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FRAME 4: SYSTEM LEARNS ================= -->
+      <div class="frame-card bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <!-- Frame Header -->
+          <div class="flex items-center justify-between mb-3 border-b border-slate-200/60 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+              <h2 class="font-bold text-slate-800 text-sm">Frame 4 — What System Should Learn</h2>
+            </div>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">Adaptation</span>
+          </div>
+
+          <!-- Mini UI Wireframe -->
+          <div class="ui-mockup-bg rounded-xl p-3 text-xs mb-4 shadow-inner border border-slate-700/50 relative">
+            <div class="bg-slate-800/90 border border-emerald-500/40 rounded-lg p-2.5">
+              <div class="text-[9px] font-bold text-emerald-400 mb-1.5 flex items-center gap-1">
+                <i class="fa-solid fa-brain"></i> System Adaptation Rules Updated:
+              </div>
+              <ul class="space-y-1.5 text-[8px] text-slate-300">
+                <li class="flex items-start gap-1.5">
+                  <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5 text-[9px]"></i>
+                  <span><strong>Rule 1:</strong> Separate subject orientation (facing) from camera viewpoint (lens position).</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5 text-[9px]"></i>
+                  <span><strong>Rule 2:</strong> For ambiguous angle terms, show preview / ask first before changing directly.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3-Part Role Table -->
+          <div class="space-y-2 text-xs">
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-user text-blue-500 mr-1.5"></i> Person does:</span>
+              <p class="text-slate-600 text-[11px]">Provides quick feedback ("Not what I meant") to log error.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-microchip text-indigo-500 mr-1.5"></i> System does:</span>
+              <p class="text-slate-600 text-[11px]">Updates inference logic to distinguish orientation from viewpoint.</p>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-slate-200/80 shadow-2xs">
+              <span class="font-bold text-slate-700 block mb-0.5"><i class="fa-solid fa-eye text-emerald-500 mr-1.5"></i> Person sees:</span>
+              <p class="text-slate-600 text-[11px]">Safer system behavior that prompts for confirmation on ambiguous angles.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Summary Bar -->
+    <div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+      <div class="flex items-center gap-3">
+        <span class="font-semibold text-slate-700">Lab 2 Phase 4 Standard:</span>
+        <span class="text-slate-500">Wrong Inference &rarr; Person Notices &rarr; Recover &rarr; System Learns</span>
+      </div>
+      <div class="font-mono text-[11px] text-slate-400">
+        4-Frame Failure Sequence Complete
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    function toggleID() {
+      const tag = document.getElementById('student-id-tag');
+      const btnText = document.getElementById('toggle-text');
+      if (tag.classList.contains('hidden')) {
+        tag.classList.remove('hidden');
+        btnText.innerText = "Hide ID on Image";
+      } else {
+        tag.classList.add('hidden');
+        btnText.innerText = "Show ID on Image";
+      }
+    }
+  </script>
+</body>
+</html>
