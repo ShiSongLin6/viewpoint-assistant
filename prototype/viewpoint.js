@@ -40,10 +40,10 @@
   var VAGUE_CUES = [
     { words: ['looking down', 'look down', 'from above', 'from up high', 'from the stage', 'from the balcony'],
       label: 'somewhere above the subject',
-      candidates: [{ theta: 0, phi: 55 }, { theta: 340, phi: 48 }, { theta: 20, phi: 60 }] },
+      candidates: [{ theta: 0, phi: 55 }, { theta: 325, phi: 40 }, { theta: 35, phi: 40 }] },
     { words: ['looking up', 'look up', 'from below', 'from the ground', 'from the floor'],
       label: 'somewhere below the subject',
-      candidates: [{ theta: 0, phi: -40 }, { theta: 340, phi: -30 }, { theta: 20, phi: -50 }] },
+      candidates: [{ theta: 0, phi: -45 }, { theta: 325, phi: -25 }, { theta: 35, phi: -25 }] },
     { words: ['over the shoulder', 'over-the-shoulder'],
       label: 'behind and above the subject',
       candidates: [{ theta: 160, phi: 25 }, { theta: 200, phi: 25 }, { theta: 180, phi: 40 }] }
@@ -62,7 +62,7 @@
   function plain(t, p) {
     var elev, a = Math.abs(p);
     if (a >= 80) elev = p > 0 ? 'top-down' : 'bottom-up';
-    else if (a >= 50) elev = (p > 0 ? 'high' : 'low') + ' angle';
+    else if (a >= 30) elev = (p > 0 ? 'high' : 'low') + ' angle';
     else if (a >= 10) elev = (p > 0 ? 'slightly high' : 'slightly low') + ' angle';
     else elev = 'eye-level';
     if (a >= 80) return elev + ' view';

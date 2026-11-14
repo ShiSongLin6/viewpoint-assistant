@@ -79,6 +79,7 @@ test('compare: azimuth wraps around 360', () => {
 
 test('plain-language description', () => {
   assert.strictEqual(plain(0, 0), 'eye-level, front view');
-  assert.strictEqual(plain(135, -35), 'slightly low angle, back-right view');
+  assert.strictEqual(plain(135, -35), 'low angle, back-right view');
+  assert.strictEqual(plain(45, 20), 'slightly high angle, front-right view');
   assert.strictEqual(plain(200, 90), 'top-down view');
 });
