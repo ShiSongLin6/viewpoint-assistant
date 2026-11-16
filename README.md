@@ -26,7 +26,6 @@ Module project for LH/LM Intelligent Interactive Systems (University of Birmingh
 **Planned / unfinished**
 
 - A camera-controllable text-to-image model and a vision-language viewpoint detector.
-- Updated storyboards and system diagram for this version.
 - Comparison with text-only prompting (evaluation phase).
 
 **Known limits of the prompt reader:** English only; it knows only the phrases in its lexicon; "side view" is read as the right side.
@@ -48,6 +47,7 @@ Module project for LH/LM Intelligent Interactive Systems (University of Birmingh
 node --test tests/viewpoint.test.js
 ```
 
+- Storyboards (real screenshots of the prototype) and the system architecture diagram: `docs/a2/` (`storyboard_A_corrected.png`, `storyboard_B_asked.png`, `storyboard_C_precise.png`, `system_architecture.png`). The `.html` next to each image is its source; `docs/a2/screens/` holds the individual screenshots.
 - Earlier stages: `prototype/sphere_controller.html` (Lab 3 sphere on its own), `docs/lab3/01_SPEC.md`, `docs/lab3/system_path.png`, and the Lab 2 pages in `docs/lab2/`.
 
 ## Development record
@@ -60,7 +60,8 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 - **Assignment 2 (from 13 Nov 2026):**
   - *Prompt reading and comparison made real* ([98f81b9](https://github.com/ShiSongLin6/viewpoint-assistant/commit/98f81b9)). In Lab 3 these steps were mocked. Rules were chosen over a language model so the behaviour is transparent, testable and runs without an API key. Unclear or conflicting phrases return suggestions, never an angle. Checked with 14 unit tests, including Lab 3 Tests A and B and a whole-word check ("triangle" is not "angle").
   - *Full interaction loop* ([05ebff9](https://github.com/ShiSongLin6/viewpoint-assistant/commit/05ebff9)). The sphere was embedded in a prompt → interpretation → result → correction loop with a version history. Generation and detection stay simulated so that interface behaviour can be examined separately from model accuracy. Suggestions were spread apart and kept visible while dragging, after the first layout made them overlap. Checked by walking examples A–C, the no-angle case, Undo and version switching in a browser.
-  - TODO: storyboards, system diagram, and my own review and changes.
+  - *Storyboards and architecture diagram redrawn for this version.* The Lab 2 storyboards showed preset buttons and the Lab 3 path diagram still marked prompt reading and comparison as mocked; both were out of date. The three new storyboards use real screenshots of the prototype (A: wrong angle corrected, B: metaphor, C: precise angle), and every component in the diagram is marked implemented, simulated or planned to match the code.
+  - TODO: my own review and changes.
 
 ## AI assistance
 
@@ -70,5 +71,6 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 
 ## Additional files
 
+- `docs/a2/`: Assignment 2 storyboards and architecture diagram (PNG plus HTML source).
 - `docs/lab2/`: Lab 2 worksheet and storyboard pages (student ID removed for the public repository).
 - `docs/lab3/`: Lab 3 specification, prompt log and system path diagram.
