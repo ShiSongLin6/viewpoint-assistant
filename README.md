@@ -72,6 +72,6 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 
 ## Additional files
 
-- `docs/a2/`: Assignment 2 storyboards and architecture diagram (PNG plus HTML source). `docs/a2/evidence/` holds two game-art drafts from 14 Nov 2026: `orientation_mismatch_v0.7_…png`, where the characters face the player more than the side-back direction I wanted, and `orientation_corrected_v0.8_…png`, after I corrected it. They are a design motivation, not data on any model's angle accuracy.
+- `docs/a2/`: Assignment 2 storyboards and architecture diagram (PNG plus HTML source). `docs/a2/motivation/` holds two game-art drafts from 14 Nov 2026: `orientation_mismatch_v0.7_…png`, where the characters face the player more than the side-back direction I wanted, and `orientation_corrected_v0.8_…png`, after I corrected it. They were made in my game-art work, not by this system, and are a design motivation, not data on any model's angle accuracy.
 - `docs/lab2/`: Lab 2 worksheet and storyboard pages (student ID removed for the public repository).
 - `docs/lab3/`: Lab 3 specification, prompt log and system path diagram.
