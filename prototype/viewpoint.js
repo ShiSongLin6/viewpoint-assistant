@@ -22,12 +22,12 @@
   var CLEAR_TERMS = [
     { words: ['three-quarter rear', 'three quarter rear', '3/4 rear', 'three-quarter back', 'three quarter back'], theta: 135, label: 'three-quarter rear view' },
     { words: ['three-quarter', 'three quarter', '3/4 view'], theta: 45, label: 'three-quarter front view' },
-    { words: ["bird's-eye", "bird's eye", 'birds-eye', 'birds eye', 'top-down', 'top down', 'overhead', 'directly above'], phi: 90, label: 'top-down' },
+    { words: ["bird's-eye", "bird's eye", 'birds-eye', 'birds eye', 'top-down', 'top down', 'top view', 'top-view', 'overhead', 'directly above'], phi: 90, label: 'top-down' },
     { words: ["worm's-eye", "worm's eye", 'worms-eye', 'worms eye', 'directly below'], phi: -80, label: 'bottom-up' },
     { words: ['high angle', 'high-angle'], phi: 50, label: 'high angle' },
     { words: ['low angle', 'low-angle'], phi: -35, label: 'low angle' },
     { words: ['eye-level', 'eye level'], phi: 0, label: 'eye-level' },
-    { words: ['45-degree', '45 degree', '45°'], phi: 45, label: '45° high angle' },
+    { words: ['45-degree', '45 degree', '45 degrees', '45-degrees', '45°'], phi: 45, label: '45° high angle' },
     { words: ['left side', 'from the left'], theta: 270, label: 'left side view' },
     { words: ['right side', 'from the right'], theta: 90, label: 'right side view' },
     { words: ['side view', 'side-view', 'profile view', 'in profile', 'from the side'], theta: 90, label: 'side view' },
@@ -148,6 +148,20 @@
       };
     }
     if (clear.hits.length) {
+      // A vague cue ("looking up from the ground") next to clear words must not be silently dropped.
+      // If it hints at a height that the clear words leave open, ask, keeping the direction already given.
+      if (vague.hits.length && phi === null) {
+        var vg = vague.hits[0].group;
+        var keepTheta = theta;
+        var cands = vg.candidates.map(function (c) { return { theta: keepTheta === null ? c.theta : keepTheta, phi: c.phi }; });
+        return {
+          kind: 'ambiguous',
+          reason: 'The phrase "' + vague.hits[0].word + '" suggests ' + vg.label + ' but does not give one exact height' +
+            (keepTheta === null ? '.' : ' (the direction from "' + clearWords.join('", "') + '" is kept).'),
+          terms: clearWords.concat(vagueWords),
+          candidates: cands
+        };
+      }
       if (phi !== null && Math.abs(phi) >= 80) theta = null; // straight above/below: direction has no meaning
       return { kind: 'clear', theta: theta, phi: phi, terms: clearWords, label: labels.join(', ') };
     }

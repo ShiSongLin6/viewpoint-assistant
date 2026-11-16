@@ -52,6 +52,21 @@ test('whole words only: "triangle" and "camera" as a subject are not viewpoint w
   assert.strictEqual(parsePrompt('a vintage camera on a desk').kind, 'none');
 });
 
+test('a vague cue next to a clear word is not silently dropped', () => {
+  const r = parsePrompt('looking up at the cat from the ground, side view');
+  assert.strictEqual(r.kind, 'ambiguous');
+  r.candidates.forEach(c => { assert.strictEqual(c.theta, 90, 'keeps the stated direction'); assert.ok(c.phi < 0, 'below the subject'); });
+});
+
+test('a vague cue is ignored when the clear words already fix the height', () => {
+  assert.strictEqual(parsePrompt('looking down at the cat, top-down view').kind, 'clear');
+});
+
+test('common spellings: "45 degrees", "top view"', () => {
+  assert.strictEqual(parsePrompt('a cat at 45 degrees').phi, 45);
+  assert.strictEqual(parsePrompt('top view of a house').phi, 90);
+});
+
 test('no viewpoint word at all', () => {
   assert.strictEqual(parsePrompt('a cat sitting on a carpet').kind, 'none');
   assert.strictEqual(parsePrompt('').kind, 'none');
