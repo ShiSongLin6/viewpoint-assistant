@@ -28,7 +28,7 @@ Module project for LH/LM Intelligent Interactive Systems (University of Birmingh
 - A camera-controllable text-to-image model and a vision-language viewpoint detector.
 - Comparison with text-only prompting (evaluation phase).
 
-**Known limits of the prompt reader:** English only; it knows only the phrases in its lexicon (anything else is reported as no angle, and the person is asked); it matches words, not meaning, so "a rear view mirror" is read as a back view; "side view" is read as the right side. In the demo the simulated text-only model deliberately ignores viewpoint words, so examples A and C always start with a mismatch; the detector is never wrong, so wrong-detection cases are not demonstrated.
+**Known limits of the prompt reader:** English only; it knows only the phrases in its lexicon (anything else is reported as no angle, and the person is asked); it matches words, not meaning, so "a rear view mirror" is read as a back view; "side view" is read as the right side; it cannot tell "the subject turns" from "the camera moves" ("from behind" is always read as the camera going behind the subject), which is the failure mode named in the Lab 2 worksheet. In the demo the simulated text-only model deliberately ignores viewpoint words, so examples A and C always start with a mismatch; the detector is never wrong, so wrong-detection cases are not demonstrated.
 
 ## Technology stack
 
@@ -72,6 +72,6 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 
 ## Additional files
 
-- `docs/a2/`: Assignment 2 storyboards and architecture diagram (PNG plus HTML source).
+- `docs/a2/`: Assignment 2 storyboards and architecture diagram (PNG plus HTML source). `docs/a2/evidence/orientation_mismatch_v0.7_20261114.png` is a discarded game-art draft (14 Nov 2026) in which the character faced the player more than the side-back direction I wanted; it is a design motivation, not data on any model's angle accuracy.
 - `docs/lab2/`: Lab 2 worksheet and storyboard pages (student ID removed for the public repository).
 - `docs/lab3/`: Lab 3 specification, prompt log and system path diagram.
