@@ -29,6 +29,12 @@ test('longer phrases win: "three-quarter rear view" is not read as "rear view"',
   assert.strictEqual(parsePrompt('rear view of a chair').theta, 180);
 });
 
+test('"a 3/4 rear view" is three-quarter rear, not a plain back view (found in the 17 Nov model check)', () => {
+  assert.strictEqual(parsePrompt('a 3/4 rear view').theta, 135);
+  assert.strictEqual(parsePrompt('a three quarter rear view').theta, 135);
+  assert.strictEqual(parsePrompt('a rear view').theta, 180);
+});
+
 test('only one axis specified leaves the other open', () => {
   const r = parsePrompt('a teapot, side view');
   assert.strictEqual(r.kind, 'clear');

@@ -20,7 +20,8 @@
   // Longer phrases are matched first, and matched text is consumed, so
   // "three-quarter rear view" is not also read as "rear view".
   var CLEAR_TERMS = [
-    { words: ['three-quarter rear', 'three quarter rear', '3/4 rear', 'three-quarter back', 'three quarter back'], theta: 135, label: 'three-quarter rear view' },
+    // The "... rear view" forms are listed so they win over the shorter "rear view" (longest phrase first).
+    { words: ['three-quarter rear view', 'three quarter rear view', '3/4 rear view', 'three-quarter rear', 'three quarter rear', '3/4 rear', 'three-quarter back', 'three quarter back'], theta: 135, label: 'three-quarter rear view' },
     { words: ['three-quarter', 'three quarter', '3/4 view'], theta: 45, label: 'three-quarter front view' },
     { words: ["bird's-eye", "bird's eye", 'birds-eye', 'birds eye', 'top-down', 'top down', 'top view', 'top-view', 'overhead', 'directly above'], phi: 90, label: 'top-down' },
     { words: ["worm's-eye", "worm's eye", 'worms-eye', 'worms eye', 'directly below'], phi: -80, label: 'bottom-up' },
