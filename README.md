@@ -14,9 +14,10 @@ I developed the project idea and interaction design through Labs 1–5. Assignme
 
 - Reading the prompt: a rule-based lexicon maps viewpoint words to angles, and reports unclear, conflicting or missing viewpoints instead of guessing (`prototype/viewpoint.js`).
 - Comparing the requested viewpoint with the detected one: match or mismatch, with a proposed correction.
-- 360° sphere: drag the camera marker, sliders, shortcuts, tappable suggestions for unclear requests, plain-language readout, Undo.
+- 360° sphere: drag the camera marker, sliders, shortcuts, tappable suggestions for unclear requests, plain-language readout, Undo, full globe rotation (turn the sphere like a globe without changing the selected angle).
 - Confirm before generating: nothing is generated from an unclear angle, and nothing is regenerated until the person confirms.
 - Version history: every generation is kept and can be reopened.
+- Additional preview enhancements (implemented, supporting the camera workflow, not part of the core scope): Auto mode, light adjustment, day/night, zoom 0.4–3× and inset/swap view.
 
 **Simulated** (labelled "simulated" in the interface)
 
@@ -69,6 +70,7 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 - **Google Gemini (Lab 3):** I asked Gemini to review my specification, sphere projection maths and fallback design. The specification, prototype and design decisions were my own. Full record: `docs/lab3/02_PROMPT_LOG.md`.
 - **Claude (Anthropic), in Claude Code (Assignment 2):** I used Claude Code to help organise the brief, set up the repository and implement the expanded interface from my Lab 3 specification, prototype and instructions. This included code assistance for `viewpoint.js`, its tests, `index.html` and `app.js`. I also directed it to run checks and review the code and diagrams against the brief. I reviewed the work and made revisions; the project idea and interaction design were mine. AI-assisted commits carry a `Co-Authored-By: Claude` line.
 - **School bAI platform (17 Nov):** I asked Codex to prepare a fixed 20-input parser review packet, operate the school platform and record replies from its 14 listed models. The replies were compared with locally executed parser outputs. Model names, original replies and discrepancies are in `docs/a2/model_check/04_comparison.md`; I did not take the models' agreement as the answer: I ran the parser locally, fixed #16 and kept #4 ("a rear view mirror") and #5 (the subject turning vs the camera moving) as documented limits. Two further models, DeepSeek V4.1 Flash and Doubao 2.1 Lite, were run in the Doubao app.
+- **Doubao (ByteDance):** used as a sounding board — I talked through my reasoning and self-review each round while it checked the logic back to me. All decisions and the self-review were my own.
 
 ## Additional files
 
@@ -76,3 +78,8 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 - `docs/a2/`: Assignment 2 storyboards, architecture diagram and model-check figure (PNG plus HTML or SVG source). `docs/a2/motivation/` holds examples from my own game-art work, not produced by this system: `first_person_and_orientation.png` shows a first-person request that still came back as an outside view, and a character drawn facing the player when I asked for a side-back view; the two full-size images of the second case are alongside. They illustrate my motivation; the prototype itself uses the cat example.
 - `docs/lab2/`: Lab 2 worksheet and storyboard pages (student ID removed for the public repository).
 - `docs/lab3/`: Lab 3 specification, prompt log and system path diagram.
+
+
+### Sphere viewing rotation (23 Nov 2026)
+
+Following my observation that selecting a point on the far side was difficult, I added separate **Rotate sphere** and **Adjust camera** modes. Dragging in Rotate sphere mode turns the viewing globe without changing the selected camera angle; arrow keys also rotate the globe. In Adjust camera mode, pointing or dragging on the visible surface selects the corresponding camera position. **Reset sphere view** restores the original viewing orientation while preserving the selected angle. Sliders remain available for precise angle adjustments. This extends the earlier fixed-view sphere; the Lab 3 prototype is retained as the original version.

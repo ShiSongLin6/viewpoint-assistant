@@ -9,3 +9,6 @@ Thumbs.db
 
 
 
+
+# Local work log, development versions and source snapshots
+/.local-dev/

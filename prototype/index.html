@@ -16,6 +16,8 @@
   *{box-sizing:border-box;}
   body{margin:0;font-family:"Segoe UI",Arial,"Microsoft YaHei",sans-serif;color:var(--ink);background:var(--page);font-size:14px;line-height:1.5;}
   .wrap{max-width:1120px;margin:0 auto;padding:20px 16px 48px;}
+  header{position:relative;padding-right:56px;}
+  #languageToggle{position:absolute;right:0;top:0;width:40px;height:40px;padding:0;display:flex;justify-content:center;align-items:center;font-size:21px;border-radius:50%;}
   header h1{font-size:21px;margin:0 0 2px;}
   header p{margin:0;color:var(--sub);font-size:13px;}
   .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 0 16px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font-size:12.5px;color:var(--sub);}
@@ -57,6 +59,42 @@
   .caption{margin:8px 2px 0;font-size:12.5px;color:var(--sub);}
   #sphere{display:block;width:100%;max-width:380px;height:auto;margin:0 auto;cursor:grab;touch-action:none;border-radius:8px;}
   #sphere.dragging{cursor:grabbing;}
+  #sphereCard button[aria-pressed="true"]{background:#6b46c1;color:#fff;}
+  #sphereCard{grid-column:1/-1;}
+  .camera-stage{position:relative;border:1px solid #303649;border-radius:12px;overflow:hidden;background:#0b0e19;}
+  #cameraPreview{display:block;width:100%;height:auto;cursor:grab;touch-action:none;}
+  #cameraPreview:active{cursor:grabbing;}
+  .zoom-controls{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:1px;padding:2px;background:rgba(15,19,31,.5);color:#bfc7da;border:0;border-radius:5px;}
+  .zoom-controls[hidden]{display:none;}
+  .zoom-controls button{width:23px;height:23px;padding:0;font-size:15px;border:0;background:transparent;color:inherit;border-radius:4px;}
+  .zoom-controls button:hover{background:#ffffff14;}
+  .zoom-controls button:disabled{opacity:.4;cursor:default;}
+  #zoomLevel{min-width:33px;text-align:center;font-size:10px;font-variant-numeric:tabular-nums;}
+  #btnNightMode{position:absolute;right:12px;top:12px;width:28px;height:28px;padding:5px;display:grid;place-items:center;border:0;border-radius:0;background:transparent;color:#dde2f2;box-shadow:none;}
+  #btnNightMode svg{width:16px;height:16px;display:block;}
+  #btnNightMode:hover{background:transparent;color:#fff;}
+  #btnNightMode[aria-pressed="true"]{color:#e5d5ad;}
+  .camera-stage .live-label{position:absolute;left:12px;top:14px;max-width:calc(100% - 64px);color:#c4cbdf;background:transparent;font-size:11px;letter-spacing:.03em;pointer-events:none;}
+  .sphere-pip{position:absolute;right:12px;bottom:12px;width:clamp(135px,21%,210px);border:1px solid #ffffff30;border-radius:10px;background:rgba(249,248,253,.96);box-shadow:0 8px 24px #00000028;overflow:hidden;}
+  .sphere-pip #sphere{width:100%;max-width:none;}
+  .sphere-pip canvas{pointer-events:none;}
+  .sphere-pip #cameraPreview{width:100%;height:auto;}
+  #btnSwapView{position:absolute;right:5px;top:5px;z-index:2;width:23px;height:23px;padding:4px;border:0;border-radius:4px;background:rgba(255,255,255,.75);color:#64567b;display:grid;place-items:center;}
+  #btnSwapView:hover{background:#fff;color:#55368e;}
+  #btnSwapView svg{width:15px;height:15px;}
+  .camera-stage.sphere-main{aspect-ratio:8/5;}
+  .camera-stage.sphere-main > #sphere{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:100%;width:auto;max-width:100%;margin:0;}
+  .camera-stage.sphere-main .sphere-pip{background:#0b0e19;}
+  .camera-stage.sphere-main .live-label{color:#c4cbdf;}
+
+  .camera-stage:focus-within{outline:2px solid var(--purple);outline-offset:2px;}
+  #sphereCard .row[role="group"]{gap:3px;padding:4px;background:#f1eff6;border:1px solid #e8e3ef;border-radius:9px;}
+  #sphereCard .row[role="group"] button{border:0;background:transparent;padding:6px 10px;border-radius:6px;font-size:12px;color:#686177;}
+  #sphereCard .row[role="group"] button[aria-pressed="true"]{background:#fff;color:#5e4496;box-shadow:0 1px 4px #30204312;}
+  #btnResetSphere{margin-left:auto;}
+  #candidateChoices[hidden], #candidateLegend[hidden]{display:none;}
+  #candidateChoices button{border-color:#e6c98a;background:#fff8e9;color:#805514;font-size:12px;padding:5px 9px;}
+  #candidateChoices button[aria-pressed="true"]{background:#805514;color:#fff;}
   .sphere-cols{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;}
   .readout{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   .stat{background:var(--purple-bg);border:1px solid var(--purple-line);border-radius:10px;padding:6px 10px;}
@@ -84,6 +122,7 @@
 <body>
 <div class="wrap">
   <header>
+    <button id="languageToggle" type="button" aria-label="Switch to Chinese"><span aria-hidden="true">🌐</span></button>
     <h1>Viewpoint Assistant</h1>
     <p>Get a generated image from the camera angle you mean: the assistant checks the angle for you, and asks instead of guessing.</p>
   </header>
@@ -97,6 +136,7 @@
 
     <section class="card" aria-labelledby="h1">
       <h2 id="h1"><span class="num">1</span> Your prompt <span class="tag impl">implemented</span></h2>
+      <p class="small" id="promptLanguageNote">Enter prompts in English; the language switch changes the interface.</p>
       <textarea id="prompt" aria-label="Prompt" placeholder="Describe the image, including the camera angle you want…"></textarea>
       <div class="row" style="margin-top:8px">
         <button class="primary" id="btnGenerate">Generate</button>
@@ -133,14 +173,51 @@
     </section>
 
     <section class="card tall" id="sphereCard" aria-labelledby="h4">
-      <h2 id="h4"><span class="num">4</span> Camera sphere <span class="tag impl">implemented</span></h2>
+      <h2 id="h4"><span class="num">4</span> Camera view <span class="tag impl">implemented</span></h2>
       <div class="sphere-cols">
-        <canvas id="sphere" width="460" height="460" aria-label="Camera position on a sphere around the subject. Use the sliders below for keyboard control."></canvas>
+        <div class="row" role="group" aria-label="Sphere interaction mode">
+          <button id="btnAutoMode" aria-pressed="true">Auto</button>
+          <button id="btnRotateMode" aria-pressed="false">Rotate sphere</button>
+          <button id="btnCameraMode" aria-pressed="false">Adjust camera</button>
+          <button id="btnLightMode" aria-pressed="false">Adjust light</button>
+          <button id="btnResetSphere">Reset view</button>
+        </div>
+        <div class="camera-stage" id="cameraStage">
+          <canvas id="cameraPreview" width="960" height="600" tabindex="0" aria-label="Live 3D cat camera preview. Drag or use arrow keys to orbit the cat."></canvas>
+          <span class="live-label" id="previewModeLabel">Live camera preview</span>
+          <button id="btnNightMode" type="button" aria-label="Switch to day mode" title="Day / night" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></button>
+          <div class="zoom-controls" role="group" aria-label="Preview zoom">
+            <button id="btnZoomOut" type="button" aria-label="Zoom out">−</button>
+            <span id="zoomLevel" aria-live="polite">100%</span>
+            <button id="btnZoomIn" type="button" aria-label="Zoom in">+</button>
+            <button id="btnZoomReset" type="button" aria-label="Reset zoom">↺</button>
+          </div>
+          <div class="sphere-pip" id="viewInset" aria-label="Secondary view">
+            <button id="btnSwapView" type="button" aria-label="Expand inset view" title="Expand inset view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/></svg></button>
+        <canvas id="sphere" tabindex="0" width="460" height="460" aria-label="Camera position on a sphere around the subject. Choose Adjust camera to select a point or Rotate sphere to rotate the view. Arrow keys rotate in Rotate sphere mode; sliders adjust the camera angle."></canvas>
+          </div>
+        </div>
+        <p class="small">Auto: drag the cat to orbit the camera, or drag the light to change illumination. The inset stays in sync. Use the mode buttons to lock an operation.</p>
+        <div id="candidateChoices" class="row" role="group" aria-label="Choose a suggested camera position" hidden></div>
+        <div class="dots" aria-label="Globe grid legend">
+          <span><i style="background:#68a4e8"></i>Longitude · direction</span>
+          <span><i style="background:#e995bd"></i>Latitude · height</span>
+          <span><i style="background:#9370db"></i>Major lines</span>
+          <span>Dashed lines: far side</span>
+        </div>
         <div class="dots">
           <span><i style="background:#6b46c1"></i>camera</span>
           <span><i style="background:#c9b8e8"></i>camera on the far side</span>
-          <span><i style="background:#e0a93b"></i>suggested position (tap to pick)</span>
+          <span id="candidateLegend" hidden><i style="background:#e0a93b"></i>Suggested positions: use the numbered buttons</span>
         </div>
+
+        <details id="lightControls">
+          <summary>Light position <span id="lightReadout">θ 315°, φ 45°</span></summary>
+          <label for="lightTheta">Light direction (0–360°)</label>
+          <input id="lightTheta" type="range" min="0" max="360" step="1" value="315">
+          <label for="lightPhi">Light height (−90° to +90°)</label>
+          <input id="lightPhi" type="range" min="-90" max="90" step="1" value="45">
+        </details>
         <div class="readout">
           <div class="stat"><div class="k">Direction (azimuth θ)</div><div class="v" id="thetaVal">0°</div></div>
           <div class="stat"><div class="k">Height (elevation φ)</div><div class="v" id="phiVal">0°</div></div>
@@ -166,7 +243,7 @@
           <button class="primary" id="btnConfirm">Confirm angle → generate</button>
           <button id="btnUndo">Undo move</button>
         </div>
-        <p class="small" id="sphereHint" style="margin:0">Drag the camera marker, use the sliders, or pick a shortcut. The subject sits at the centre, facing you.</p>
+        <p class="small" id="sphereHint" style="margin:0">Drag the globe to rotate it; drag the camera icon to adjust its position. Click the globe to select a point. Arrow keys rotate the view.</p>
       </div>
     </section>
 
@@ -189,6 +266,7 @@
   </details>
 </div>
 
+<script src="language.js"></script>
 <script src="viewpoint.js"></script>
 <script src="app.js"></script>
 </body>
