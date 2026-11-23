@@ -387,9 +387,9 @@
       setUnderstood({
         kind: 'ambiguous', asked: asked, shows: 'nothing yet <span class="why">I did not generate an image from an unclear angle.</span>', needsSphere: true,
         msg: '<b>I can’t map that phrase to one exact angle, so I have not generated anything.</b> ' + esc(p.reason) +
-          ' Please point to the camera position on the sphere: tap one of the ' + p.candidates.length + ' amber suggestions or drag the marker, then press <b>Confirm angle → generate</b>.'
+          ' Please choose one of the ' + p.candidates.length + ' numbered suggestions below the preview (they are also marked on the sphere), or drag the cat in the preview, then press <b>Confirm angle → generate</b>.'
       });
-      $('sphereHint').textContent = 'Choose Suggestion 1, 2 or 3 below the preview, or tap an amber ring in the inset. Then confirm the angle.';
+      $('sphereHint').textContent = 'Choose Suggestion 1, 2 or 3 below the preview, or drag the cat in the preview. Then confirm the angle.';
       return;
     }
     if (p.kind === 'none') {
