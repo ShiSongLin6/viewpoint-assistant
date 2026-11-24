@@ -49,7 +49,7 @@
   // Placeholder 3D render (stands in for a generated image)
   // ------------------------------------------------------------------
   var CENTRE = [0, 1.05, 0.15], CAM_D = 12;
-  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, lightHover = false, previewTarget = 'camera', nightMode = false, userZoom = 1;
+  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, lightHover = false, lightOn = false, previewTarget = 'camera', nightMode = false, userZoom = 1;
   var LIGHT = (function () { var l = [-0.5, Math.SQRT1_2, 0.5], n = Math.hypot(l[0], l[1], l[2]); return [l[0] / n, l[1] / n, l[2] / n]; })();
   function sphericalPoint(theta, phi, radius) {
     var t=theta*Math.PI/180, p=phi*Math.PI/180;
@@ -181,7 +181,7 @@
     }
 
     function lightSphereGrid(rearPass) {
-      if (!opts.preview || !(interactionMode === 'light' || (interactionMode === 'auto' && previewTarget === 'light'))) return;
+      if (!lightOn || !opts.preview || !(interactionMode === 'light' || (interactionMode === 'auto' && previewTarget === 'light'))) return;
       ctx.save();
       function line(points, family, angle) {
         var major = family === 'latitude' ? angle === 0 : angle%90 === 0;
@@ -217,7 +217,7 @@
 
     if (phi >= 0) floor(1);
     // Visible light haze supplements surface illumination, making the lamp readable.
-    if (opts.preview && (interactionMode === 'light' || interactionMode === 'auto')) {
+    if (lightOn && opts.preview && (interactionMode === 'light' || interactionMode === 'auto')) {
       var glowSource=proj([CENTRE[0]+LIGHT[0]*3.8,CENTRE[1]+LIGHT[1]*3.8,CENTRE[2]+LIGHT[2]*3.8]);
       var gx=Math.max(38,Math.min(w-38,glowSource.x)), gy=Math.max(38,Math.min(h-64,glowSource.y));
       ctx.save();
@@ -238,7 +238,7 @@
       boxFaces(item.box.b).forEach(function (f) {
         var c = [(f.v[0][0] + f.v[2][0]) / 2, (f.v[0][1] + f.v[2][1]) / 2, (f.v[0][2] + f.v[2][2]) / 2];
         if (dot(f.n, [cam[0] - c[0], cam[1] - c[1], cam[2] - c[2]]) <= 0) return; // facing away
-        var lighting = opts.light || LIGHT;
+        var lighting = opts.light || (lightOn ? LIGHT : cameraSideLight(theta, phi)); // light off: even studio light from the camera side
         var lv = [CENTRE[0]+lighting[0]*3.8-c[0], CENTRE[1]+lighting[1]*3.8-c[1], CENTRE[2]+lighting[2]*3.8-c[2]];
         var ln = Math.hypot(lv[0],lv[1],lv[2]);
         var k = (nightMode ? 0.1 : 0.36) + (nightMode ? 1.05 : 0.64) * Math.max(0, dot(f.n, lv)/ln);
@@ -252,7 +252,7 @@
     if (phi < 0) floor(0.55); // seen from below: floor drawn as a see-through grid
 
     lightSphereGrid(false);
-    if (opts.preview && (interactionMode === 'light' || interactionMode === 'auto')) {
+    if (lightOn && opts.preview && (interactionMode === 'light' || interactionMode === 'auto')) {
       var lightPoint = proj([CENTRE[0]+LIGHT[0]*3.8, CENTRE[1]+LIGHT[1]*3.8, CENTRE[2]+LIGHT[2]*3.8]);
       // Keep the light reachable at the frame edge when the cat is zoomed in.
       lightPoint.x = Math.max(38,Math.min(w-38,lightPoint.x));
@@ -445,7 +445,7 @@
     state.candidates = [];
     var v = addVersion(image, 'camera', prompt, asked, cmp);
     drawSphere();
-    $('sphereHint').textContent = 'Drag the camera marker, use the sliders, or pick a shortcut. The subject sits at the centre, facing you.';
+    $('sphereHint').textContent = '';
     setUnderstood({
       kind: cmp.state, asked: asked, shows: esc(angleText(v.detected)) + ' <span class="tag sim">simulated detector</span>',
       msg: '<b>Generated version ' + v.n + ' at the confirmed angle.</b> The camera parameters were sent with the prompt <span class="tag sim">simulated model</span>. Earlier versions stay in the list below; pick one to go back.'
@@ -590,7 +590,7 @@
     ctx.fillText('📷', sx, sy);
 
     // The light marker shares the same spherical coordinates as the actual point light.
-    var lp = toXYZ(lightTheta, lightPhi);
+    if (lightOn) { var lp = toXYZ(lightTheta, lightPhi);
     var lightX = CX + lp.x, lightY = CY - lp.y;
     ctx.save();
     ctx.strokeStyle = '#b89450'; ctx.fillStyle = '#fff1c7'; ctx.lineWidth = 1.5;
@@ -605,7 +605,7 @@
     ctx.textAlign = lightX > CX ? 'right' : 'left';
     ctx.fillText('Light', lightX + (lightX > CX ? -23 : 23), lightY + 4);
 
-    ctx.restore();
+    ctx.restore(); }
     var t = Math.round(V.norm(state.theta)) % 360, ph = Math.round(state.phi);
     $('thetaVal').textContent = t + '°'; $('phiVal').textContent = ph + '°';
     $('plainAngle').textContent = V.plain(state.theta, state.phi);
@@ -712,11 +712,7 @@
     [['btnAutoMode', 'auto'], ['btnRotateMode', 'rotate'], ['btnCameraMode', 'camera'], ['btnLightMode', 'light']].forEach(function (entry) {
       $(entry[0]).setAttribute('aria-pressed', String(mode === entry[1]));
     });
-    $('sphereHint').textContent = mode === 'auto'
-      ? 'Drag the globe to rotate it; drag the camera icon to adjust its position. Click the globe to select a point. Arrow keys rotate the view.'
-      : mode === 'light' ? 'Drag the point light in the large preview, drag its marker in the inset, or use the light sliders for full 360° placement.' : mode === 'rotate'
-        ? 'Rotate mode: dragging only rotates the globe. Your selected camera angle stays fixed.'
-        : 'Camera mode: click or drag on the visible globe to adjust the camera. The globe view stays fixed.';
+    $('sphereHint').textContent = ''; // each mode is explained by its button's tooltip
   }
   $('btnNightMode').addEventListener('click', function () {
     nightMode = !nightMode;
@@ -727,6 +723,14 @@
       ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>'
       : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z"/></svg>';
     drawSphere(); renderResult(); renderThumbs();
+  });
+  // The point light is optional. Off: no light handle or marker, and an even light from the camera side.
+  $('btnLightToggle').addEventListener('click', function () {
+    lightOn = !lightOn;
+    this.setAttribute('aria-pressed', String(lightOn));
+    $('btnLightMode').hidden = !lightOn; $('lightControls').hidden = !lightOn;
+    if (!lightOn) { lightHover = false; if (interactionMode === 'light') setInteractionMode('auto'); previewTarget = 'camera'; animatePreviewZoom(1); }
+    drawSphere();
   });
   $('btnCompact').addEventListener('click', function () {
     var on = document.querySelector('.grid').classList.toggle('compact');

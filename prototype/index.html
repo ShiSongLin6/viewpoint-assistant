@@ -71,10 +71,15 @@
   .zoom-controls button:hover{background:#ffffff14;}
   .zoom-controls button:disabled{opacity:.4;cursor:default;}
   #zoomLevel{min-width:33px;text-align:center;font-size:10px;font-variant-numeric:tabular-nums;}
-  #btnNightMode{position:absolute;right:12px;top:12px;width:28px;height:28px;padding:5px;display:grid;place-items:center;border:0;border-radius:0;background:transparent;color:#dde2f2;box-shadow:none;}
-  #btnNightMode svg{width:16px;height:16px;display:block;}
-  #btnNightMode:hover{background:transparent;color:#fff;}
-  #btnNightMode[aria-pressed="true"]{color:#e5d5ad;}
+  #btnNightMode,#btnLightToggle{position:absolute;right:12px;top:12px;width:28px;height:28px;padding:5px;display:grid;place-items:center;border:0;border-radius:0;background:transparent;color:#98a0b3;box-shadow:none;}
+  #btnLightToggle{right:44px;}
+  #btnNightMode svg,#btnLightToggle svg{width:16px;height:16px;display:block;}
+  #btnNightMode:hover,#btnLightToggle:hover{background:transparent;color:#5e4496;}
+  #btnLightToggle[aria-pressed="true"]{color:#c08a1e;}
+  .camera-stage.night #btnNightMode,.camera-stage.night #btnLightToggle{color:#dde2f2;}
+  .camera-stage.night #btnNightMode:hover,.camera-stage.night #btnLightToggle:hover{color:#fff;}
+  .camera-stage.night #btnNightMode[aria-pressed="true"],.camera-stage.night #btnLightToggle[aria-pressed="true"]{color:#e5d5ad;}
+  #sphereHint:empty{display:none;}
   .camera-stage .live-label{position:absolute;left:12px;top:14px;max-width:calc(100% - 64px);color:#9aa2b5;background:transparent;font-size:11px;letter-spacing:.03em;pointer-events:none;}
   .sphere-pip{position:absolute;right:12px;bottom:12px;width:clamp(135px,21%,210px);border:1px solid #ffffff30;border-radius:10px;background:rgba(249,248,253,.96);box-shadow:0 8px 24px #00000028;overflow:hidden;}
   .sphere-pip #sphere{width:100%;max-width:none;}
@@ -111,8 +116,9 @@
   .seclabel{font-size:11.5px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;margin:2px 0 4px;}
   .dots{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);justify-content:center;}
   .dots i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;}
-  .thumbs{display:flex;gap:10px;overflow-x:auto;padding:3px 3px 6px;}
-  .thumb{flex:0 0 138px;border:1px solid var(--line);border-radius:10px;padding:6px;background:#fff;cursor:pointer;text-align:left;}
+  .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:10px;padding:3px 3px 6px;} /* every version stays visible: rows wrap instead of scrolling */
+  .thumbs > .small{grid-column:1/-1;}
+  .thumb{min-width:0;border:1px solid var(--line);border-radius:10px;padding:6px;background:#fff;cursor:pointer;text-align:left;}
   .thumb.current{border-color:var(--purple);box-shadow:0 0 0 2px var(--purple-bg);}
   .thumb canvas{display:block;width:100%;height:auto;border-radius:6px;background:#f7f8fb;}
   .thumb .t1{font-weight:700;font-size:12.5px;margin-top:5px;}
@@ -183,13 +189,14 @@
           <button id="btnAutoMode" aria-pressed="true" title="Drag the cat to orbit the camera, or drag the light to change illumination. The inset stays in sync.">Auto</button>
           <button id="btnRotateMode" aria-pressed="false" title="Drag to turn the globe and bring the far side into view. The camera angle stays fixed.">Rotate sphere</button>
           <button id="btnCameraMode" aria-pressed="false" title="Point or drag on the visible globe, or drag the preview, to move the camera.">Adjust camera</button>
-          <button id="btnLightMode" aria-pressed="false" title="Drag the light around the subject, or use the light sliders.">Adjust light</button>
+          <button id="btnLightMode" aria-pressed="false" hidden title="Drag the light around the subject, or use the light sliders.">Adjust light</button>
           <button id="btnResetSphere">Reset view</button>
           <button id="btnCompact" aria-pressed="false" title="Place the camera view beside the result and versions">Compact</button>
         </div>
         <div class="camera-stage" id="cameraStage">
           <canvas id="cameraPreview" width="960" height="600" tabindex="0" aria-label="Live 3D cat camera preview. Drag or use arrow keys to orbit the cat."></canvas>
           <span class="live-label" id="previewModeLabel">Live camera preview</span>
+          <button id="btnLightToggle" type="button" aria-label="Light on / off" title="Light on / off" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z"/></svg></button>
           <button id="btnNightMode" type="button" aria-label="Switch to night mode" title="Day / night" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z"/></svg></button>
           <div class="zoom-controls" role="group" aria-label="Preview zoom">
             <button id="btnZoomOut" type="button" aria-label="Zoom out">−</button>
@@ -213,7 +220,7 @@
           <span id="candidateLegend" hidden><i style="background:#e0a93b"></i>Suggested positions: use the numbered buttons</span>
         </div>
 
-        <details id="lightControls">
+        <details id="lightControls" hidden>
           <summary>Light position <span id="lightReadout">θ 315°, φ 45°</span></summary>
           <label for="lightTheta">Light direction (0–360°)</label>
           <input id="lightTheta" type="range" min="0" max="360" step="1" value="315">
@@ -245,7 +252,7 @@
           <button class="primary" id="btnConfirm">Confirm angle → generate</button>
           <button id="btnUndo">Undo move</button>
         </div>
-        <p class="small" id="sphereHint" style="margin:0">Drag the globe to rotate it; drag the camera icon to adjust its position. Click the globe to select a point. Arrow keys rotate the view.</p>
+        <p class="small" id="sphereHint" style="margin:0" aria-live="polite"></p>
       </div>
     </section>
 

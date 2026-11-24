@@ -9,7 +9,7 @@
     ['Suggested positions: use the numbered buttons','建议位置：点击编号按钮选择'],['Choose a suggested camera position','选择建议相机位置'],['Suggestion ','建议 '],
     ['Choose Suggestion 1, 2 or 3 below the preview, or drag the cat in the preview. Then confirm the angle.','点击预览下方的建议 1、2、3，或在预览中拖动小猫，然后确认角度。'],
     ['Preview zoom','预览缩放'],['Zoom out','缩小'],['Zoom in','放大'],['Reset zoom','重置缩放'],
-    ['Switch to night mode','切换夜间模式'],['Switch to day mode','切换日间模式'],['Day / night','日间／夜间'],
+    ['Switch to night mode','切换夜间模式'],['Switch to day mode','切换日间模式'],['Day / night','日间／夜间'],['Light on / off','光源开／关'],
     
     ['Point light · drag on sphere','点光源 · 沿球面拖动'],['Drag the light around the sphere','沿球面拖动光源'],
     ['Point light · drag','点光源 · 拖动'],['Drag the point light to change illumination','拖动点光源调整照明'],
