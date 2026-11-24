@@ -200,14 +200,12 @@
         <p class="small">Auto: drag the cat to orbit the camera, or drag the light to change illumination. The inset stays in sync. Use the mode buttons to lock an operation.</p>
         <div id="candidateChoices" class="row" role="group" aria-label="Choose a suggested camera position" hidden></div>
         <div class="dots" aria-label="Globe grid legend">
-          <span><i style="background:#68a4e8"></i>Longitude · direction</span>
-          <span><i style="background:#e995bd"></i>Latitude · height</span>
+          <span title="Longitude lines show direction (azimuth θ)"><i style="background:#68a4e8"></i>Longitude (θ)</span>
+          <span title="Latitude lines show height (elevation φ)"><i style="background:#e995bd"></i>Latitude (φ)</span>
           <span><i style="background:#9370db"></i>Major lines</span>
-          <span>Dashed lines: far side</span>
-        </div>
-        <div class="dots">
-          <span><i style="background:#6b46c1"></i>camera</span>
-          <span><i style="background:#c9b8e8"></i>camera on the far side</span>
+          <span title="Dashed lines are on the far side of the globe">Dashed = far side</span>
+          <span><i style="background:#6b46c1"></i>Camera</span>
+          <span title="Camera on the far side of the globe"><i style="background:#c9b8e8"></i>Camera, far side</span>
           <span id="candidateLegend" hidden><i style="background:#e0a93b"></i>Suggested positions: use the numbered buttons</span>
         </div>
 
