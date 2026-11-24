@@ -1,6 +1,6 @@
 # Viewpoint Assistant for Text-to-Image Generation
 
-README prose word count: 1,979 (code and setup commands not counted)
+README prose word count: 1,985 (code and setup commands not counted)
 
 An interactive assistant that helps people get a generated still image from the camera viewpoint they intend. It sits beside the text prompt, compares the requested viewpoint with the one in the image, and lets the person point the camera on a 360° sphere instead of guessing angle words.
 
@@ -82,7 +82,7 @@ Throughout this assignment I treated the AI tools as tools: they reviewed my wor
 ## Additional files
 
 - `docs/a2/model_check/`: a fixed 20-input packet for LLM-assisted parser review, including the source snapshot, local executed outputs, replies from 14 school-platform models, an output comparison and a student review template. My decisions and the re-check after the fix are in `05_post_fix_recheck_20261123.md`; the figure versions I compared are in `figure_versions/`.
-- `docs/a2/`: Assignment 2 storyboards, architecture diagram and model-check figure (PNG plus HTML or SVG source). `docs/a2/motivation/` holds examples from my own game-art work, not produced by this system: `first_person_and_orientation.png` shows a first-person request that still came back as an outside view, and a character drawn facing the player when I asked for a side-back view; the two full-size images of the second case are alongside. They illustrate my motivation; the prototype itself uses the cat example.
+- `docs/a2/`: Assignment 2 storyboards, architecture diagram and model-check figure (PNG plus HTML or SVG source). `docs/a2/motivation/` holds examples from my own game-art work, not produced by this system: `first_person_and_orientation.png` shows a scene planned as a first-person view that came back in third person, shot from the front, and a character drawn facing the player when I asked for a side-back view; the two full-size images of the second case are alongside. They illustrate my motivation; the prototype itself uses the cat example.
 - `docs/a2/checks/`: the 24 Nov real-browser check of globe rotation and dragging past the pole (record and the script that produced it).
 - `docs/lab2/`: Lab 2 worksheet and storyboard pages (student ID removed for the public repository).
 - `docs/lab3/`: Lab 3 specification, prompt log and system path diagram.
