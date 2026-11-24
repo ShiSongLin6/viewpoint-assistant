@@ -590,7 +590,7 @@
     ctx.fillText('📷', sx, sy);
 
     // The light marker shares the same spherical coordinates as the actual point light.
-    if (lightOn) { var lp = toXYZ(lightTheta, lightPhi);
+    { var lp = toXYZ(lightTheta, lightPhi); // the sun marker stays on the sphere even when the light is off
     var lightX = CX + lp.x, lightY = CY - lp.y;
     ctx.save();
     ctx.strokeStyle = '#b89450'; ctx.fillStyle = '#fff1c7'; ctx.lineWidth = 1.5;
