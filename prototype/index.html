@@ -37,6 +37,7 @@
   button:hover{background:#f0f2f5;}
   button.primary{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:600;}
   button.primary:hover{background:#5a3aa8;}
+  .examples{display:flex;flex-direction:column;align-items:flex-start;gap:6px;}
   button.chip{border-radius:999px;font-size:13.5px;color:var(--sub);text-align:left;}
   .small{font-size:13px;color:var(--sub);}
   .kv{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 10px;margin:0 0 10px;}
@@ -151,11 +152,13 @@
       <p class="small" id="promptLanguageNote">Enter prompts in English; the language switch changes the interface.</p>
       <textarea id="prompt" aria-label="Prompt" placeholder="Describe the image, including the camera angle you want…"></textarea>
       <div class="row" style="margin-top:8px">
-        <button class="primary" id="btnGenerate">Generate</button>
-        <span class="small">or try:</span>
-        <button class="chip" data-example="A photorealistic cat sitting on a carpet, top-down view" title="A photorealistic cat sitting on a carpet, top-down view">A · top-down</button>
-        <button class="chip" data-example="Make it look like you're looking down at the cat from the stage" title="Make it look like you're looking down at the cat from the stage">B · “from the stage”</button>
-        <button class="chip" data-example="A product shot of the cat figurine, low angle, three-quarter rear view" title="A product shot of the cat figurine, low angle, three-quarter rear view">C · low ¾ rear</button>
+        <button class="primary" id="btnGenerate" style="align-self:flex-start">Generate</button>
+        <span class="small" style="align-self:flex-start;margin-top:8px">or try:</span>
+        <div class="examples">
+          <button class="chip" data-example="A photorealistic cat sitting on a carpet, top-down view" title="A photorealistic cat sitting on a carpet, top-down view">A · top-down</button>
+          <button class="chip" data-example="Make it look like you're looking down at the cat from the stage" title="Make it look like you're looking down at the cat from the stage">B · “from the stage”</button>
+          <button class="chip" data-example="A product shot of the cat figurine, low angle, three-quarter rear view" title="A product shot of the cat figurine, low angle, three-quarter rear view">C · low ¾ rear</button>
+        </div>
       </div>
     </section>
 
