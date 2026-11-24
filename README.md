@@ -1,5 +1,8 @@
 # Viewpoint Assistant for Text-to-Image Generation
 
+**Live demo: [https://shisonglin6.github.io/viewpoint-assistant/](https://shisonglin6.github.io/viewpoint-assistant/)**
+
+
 README prose word count: 1,986 (code and setup commands not counted)
 
 An interactive assistant that helps people get a generated still image from the camera viewpoint they intend. It sits beside the text prompt, compares the requested viewpoint with the one in the image, and lets the person point the camera on a 360° sphere instead of guessing angle words.
