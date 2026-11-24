@@ -30,15 +30,14 @@
     .card.attention{border-color:var(--amber-line);box-shadow:0 0 0 3px var(--amber-bg);}
   .card h2{font-size:16px;margin:0 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--purple);color:#fff;font-size:13px;font-weight:700;flex:0 0 auto;}
-  textarea{width:100%;height:56px;min-height:44px;font:inherit;border:1px solid #c9d1d9;border-radius:10px;padding:10px 12px;resize:vertical;color:var(--ink);}
+  textarea{width:100%;min-height:74px;font:inherit;border:1px solid #c9d1d9;border-radius:10px;padding:10px 12px;resize:vertical;color:var(--ink);}
   textarea:focus,button:focus-visible,input:focus-visible,select:focus-visible,.thumb:focus-visible{outline:2px solid var(--purple);outline-offset:2px;}
   .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
   button{font:inherit;font-size:14px;border:1px solid #c9d1d9;background:#fff;color:var(--ink);border-radius:8px;padding:7px 11px;cursor:pointer;}
   button:hover{background:#f0f2f5;}
   button.primary{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:600;}
   button.primary:hover{background:#5a3aa8;}
-  .examples{display:flex;flex-direction:column;align-items:flex-start;gap:4px;}
-  .examples button.chip{padding:4px 11px;}
+  .examples{display:flex;flex-direction:column;align-items:flex-start;gap:6px;}
   button.chip{border-radius:999px;font-size:13.5px;color:var(--sub);text-align:left;}
   .small{font-size:13px;color:var(--sub);}
   .kv{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 10px;margin:0 0 10px;}
@@ -50,7 +49,7 @@
   .badge.match{background:var(--green-bg);color:var(--green);border-color:var(--green-line);}
   .badge.mismatch{background:var(--red-bg);color:var(--red);border-color:var(--red-line);}
   .badge.ambiguous,.badge.none{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line);}
-  .msg{border-radius:10px;padding:10px 12px;background:var(--muted);border:1px solid var(--line);margin-bottom:10px;}
+  .msg{text-wrap:pretty;border-radius:10px;padding:10px 12px;background:var(--muted);border:1px solid var(--line);margin-bottom:10px;}
   .msg.match{background:var(--green-bg);border-color:var(--green-line);}
   .msg.mismatch{background:var(--red-bg);border-color:var(--red-line);}
   .msg.ambiguous,.msg.none{background:var(--amber-bg);border-color:var(--amber-line);}
@@ -129,6 +128,7 @@
   .thumb .t2{font-size:12.5px;color:var(--sub);}
   details{margin-top:12px;font-size:13.5px;color:var(--sub);}
   details summary{cursor:pointer;}
+  .legend details{flex-basis:100%;margin-top:2px;}
   select{font:inherit;font-size:13.5px;padding:3px 6px;border-radius:6px;border:1px solid #c9d1d9;}
   @media (max-width:860px){ .grid,.grid.compact{grid-template-columns:minmax(0,1fr);grid-template-areas:"prompt" "under" "result" "camera" "versions";} #btnCompact{display:none;} .kv{grid-template-columns:minmax(0,1fr);gap:0 0;} .kv dd{margin-bottom:6px;} }
 </style>
@@ -144,6 +144,17 @@
   <div class="legend" aria-label="What is real in this prototype">
     <span><span class="tag impl">implemented</span> prompt reading (rules), comparison, 360° sphere, confirm before generating, version history</span>
     <span><span class="tag sim">simulated</span> image generation and viewpoint detection — no AI model is called; the “image” is a placeholder 3D render</span>
+    <details>
+      <summary>Simulation settings (for demonstrating the prototype)</summary>
+      <p style="margin:8px 0 6px">
+        <label for="simMode">When generating from text only, the simulated model</label>
+        <select id="simMode">
+          <option value="ignore" selected>ignores viewpoint words (returns its default angle)</option>
+          <option value="follow">follows viewpoint words</option>
+        </select>
+      </p>
+      <p style="margin:0">The default reproduces the failure this project is about: models often return a similar orientation whatever angle the prompt states. When an angle is confirmed on the sphere, the simulated model always renders exactly that angle, standing in for a camera-controllable model. The simulated detector reads the angle of the placeholder render, so it is never wrong here; a real detector could be.</p>
+    </details>
   </div>
 
   <div class="grid">
@@ -266,17 +277,6 @@
     </section>
   </div>
 
-  <details>
-    <summary>Simulation settings (for demonstrating the prototype)</summary>
-    <p style="margin:8px 0 6px">
-      <label for="simMode">When generating from text only, the simulated model</label>
-      <select id="simMode">
-        <option value="ignore" selected>ignores viewpoint words (returns its default angle)</option>
-        <option value="follow">follows viewpoint words</option>
-      </select>
-    </p>
-    <p style="margin:0">The default reproduces the failure this project is about: models often return a similar orientation whatever angle the prompt states. When an angle is confirmed on the sphere, the simulated model always renders exactly that angle, standing in for a camera-controllable model. The simulated detector reads the angle of the placeholder render, so it is never wrong here; a real detector could be.</p>
-  </details>
 </div>
 
 <script src="language.js"></script>
