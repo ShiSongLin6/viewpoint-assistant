@@ -49,7 +49,7 @@
   // Placeholder 3D render (stands in for a generated image)
   // ------------------------------------------------------------------
   var CENTRE = [0, 1.05, 0.15], CAM_D = 12;
-  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, previewTarget = 'camera', nightMode = true, userZoom = 1;
+  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, previewTarget = 'camera', nightMode = false, userZoom = 1;
   var LIGHT = (function () { var l = [-0.5, Math.SQRT1_2, 0.5], n = Math.hypot(l[0], l[1], l[2]); return [l[0] / n, l[1] / n, l[2] / n]; })();
   function sphericalPoint(theta, phi, radius) {
     var t=theta*Math.PI/180, p=phi*Math.PI/180;
