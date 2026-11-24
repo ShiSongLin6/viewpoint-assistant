@@ -49,7 +49,7 @@
   // Placeholder 3D render (stands in for a generated image)
   // ------------------------------------------------------------------
   var CENTRE = [0, 1.05, 0.15], CAM_D = 12;
-  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, previewTarget = 'camera', nightMode = false, userZoom = 1;
+  var lightTheta = 315, lightPhi = 45, previewZoom = 1, zoomAnimation = 0, lightHandle = null, lightHover = false, previewTarget = 'camera', nightMode = false, userZoom = 1;
   var LIGHT = (function () { var l = [-0.5, Math.SQRT1_2, 0.5], n = Math.hypot(l[0], l[1], l[2]); return [l[0] / n, l[1] / n, l[2] / n]; })();
   function sphericalPoint(theta, phi, radius) {
     var t=theta*Math.PI/180, p=phi*Math.PI/180;
@@ -270,7 +270,7 @@
       for(var ray=0;ray<8;ray++) {var a=ray*Math.PI/4;ctx.beginPath();ctx.moveTo(lightPoint.x+Math.cos(a)*16,lightPoint.y+Math.sin(a)*16);ctx.lineTo(lightPoint.x+Math.cos(a)*22,lightPoint.y+Math.sin(a)*22);ctx.stroke();}
       ctx.shadowBlur=0;
       ctx.font='14px "Segoe UI", Arial';ctx.fillStyle=nightMode ? '#ffe5ae' : '#765722';ctx.textAlign='center';
-      ctx.fillText('Point light · drag on sphere',lightPoint.x,lightPoint.y+42);
+      if (interactionMode === 'light' || previewTarget === 'light' || lightHover) ctx.fillText('Point light · drag on sphere',lightPoint.x,lightPoint.y+42);
       ctx.restore();
     } else if(opts.preview) lightHandle=null;
 
@@ -321,9 +321,15 @@
   // ------------------------------------------------------------------
   // Versions and result
   // ------------------------------------------------------------------
+  // The simulated image is lit from the camera side (above and to one side), like a product shot,
+  // so back and low views are not in shadow. The preview light stays under the person's control.
+  function cameraSideLight(theta, phi) {
+    var t = (theta - 35) * Math.PI / 180, p = Math.min(75, Math.max(-20, phi + 30)) * Math.PI / 180;
+    return [Math.cos(p) * Math.sin(t), Math.sin(p), Math.cos(p) * Math.cos(t)];
+  }
   function addVersion(image, source, prompt, askedHtml, cmp) {
     var detected = simDetect(image);
-    state.versions.push({ n: state.versions.length + 1, theta: image.theta, phi: image.phi, detected: detected, source: source, prompt: prompt, asked: askedHtml, state: cmp.state, light: LIGHT.slice(), lightTheta: lightTheta, lightPhi: lightPhi, frame: copyFrame(source === 'camera' ? cameraFrame() : basis(image.theta,image.phi)) });
+    state.versions.push({ n: state.versions.length + 1, theta: image.theta, phi: image.phi, detected: detected, source: source, prompt: prompt, asked: askedHtml, state: cmp.state, imageLight: cameraSideLight(image.theta, image.phi), light: LIGHT.slice(), lightTheta: lightTheta, lightPhi: lightPhi, frame: copyFrame(source === 'camera' ? cameraFrame() : basis(image.theta,image.phi)) });
     state.current = state.versions.length - 1; state.stale = false;
     renderResult(); renderThumbs();
     return state.versions[state.current];
@@ -331,7 +337,7 @@
   function renderResult() {
     var v = state.versions[state.current], canvas = $('result');
     if (!v) { renderEmpty(canvas); $('detectedPill').hidden = true; $('matchPill').hidden = true; $('resultCaption').textContent = 'No image yet.'; return; }
-    renderScene(canvas, v.theta, v.phi, {light: v.light, frame: v.frame});
+    renderScene(canvas, v.theta, v.phi, {light: v.imageLight || v.light, frame: v.frame});
     canvas.style.opacity = state.stale ? '0.45' : '1';
     $('detectedPill').hidden = false; $('detectedPill').innerHTML = 'Detected: <b>' + esc(V.plain(v.detected.theta, v.detected.phi)) + '</b>';
     $('matchPill').hidden = false; $('matchPill').innerHTML = state.stale ? '<b>earlier image · nothing new generated yet</b>' : v.state === 'match' ? '<b style="color:var(--green)">✓ matches request</b>' : '<b style="color:var(--red)">✕ not the angle asked for</b>';
@@ -345,7 +351,7 @@
       b.className = 'thumb' + (i === state.current ? ' current' : '');
       b.setAttribute('aria-label', 'Show version ' + v.n);
       var c = document.createElement('canvas'); c.width = 280; c.height = 210;
-      renderScene(c, v.theta, v.phi, { short: true, light: v.light, frame: v.frame });
+      renderScene(c, v.theta, v.phi, { short: true, light: v.imageLight || v.light, frame: v.frame });
       b.appendChild(c);
       var t1 = document.createElement('div'); t1.className = 't1';
       t1.textContent = 'v' + v.n + ' · ' + (v.state === 'match' ? '✓ match' : '✕ mismatch');
@@ -828,6 +834,12 @@
     preview.setPointerCapture(e.pointerId); e.preventDefault(); e.stopPropagation();
   });
   preview.addEventListener('pointermove', function (e) {
+    if (!previewDrag && !dragSurface) { // hover: show the light's label only when the pointer is on it
+      var r=preview.getBoundingClientRect(), hx=(e.clientX-r.left)*preview.width/r.width, hy=(e.clientY-r.top)*preview.height/r.height;
+      var over=!!(lightHandle && Math.hypot(hx-lightHandle.x,hy-lightHandle.y)<=36);
+      if (over !== lightHover) { lightHover = over; preview.style.cursor = over ? 'pointer' : ''; drawSphere(); }
+      return;
+    }
     if (!previewDrag || dragSurface !== 'preview' || e.pointerId !== dragPointerId) return;
     var scale = 960 / preview.getBoundingClientRect().width;
     syncPreviewOrbit((e.clientX-previewDrag.x)*scale, (e.clientY-previewDrag.y)*scale);
@@ -839,6 +851,7 @@
   }
   preview.addEventListener('pointerup', endPreviewOrbit);
   preview.addEventListener('pointercancel', endPreviewOrbit);
+  preview.addEventListener('pointerleave', function () { if (lightHover) { lightHover = false; preview.style.cursor = ''; drawSphere(); } });
   preview.addEventListener('lostpointercapture', endPreviewOrbit);
   preview.addEventListener('keydown', function (e) {
     if (mainSurface !== 'preview') return;

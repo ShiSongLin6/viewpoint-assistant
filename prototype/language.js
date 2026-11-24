@@ -38,7 +38,7 @@
     ['What the assistant understood','助手的理解'],['You asked for','你要求的角度'],['The image shows','图像显示的角度'],['Check','核对结果'],['waiting for a prompt','等待输入提示词'],
     ['Type a prompt and press Generate. Nothing is generated from an unclear angle, and nothing is regenerated until you confirm.','输入英文提示词并点击“生成”。角度不明确时会先询问你，重新生成前需要你的确认。'],
     ['Camera sphere','相机球体'],['Adjust camera','调整相机'],['Rotate sphere','旋转球体'],['Reset sphere view','重置球体视图'],['Result','结果'],['No image yet.','暂无图像。'],
-    ['camera on the far side','背面的相机'],['suggested position (tap to pick)','建议位置（点击选择）'],['camera','相机'],['Direction (azimuth θ)','方向（方位角 θ）'],['Height (elevation φ)','高度（仰角 φ）'],['In plain words:','通俗描述：'],['Direction θ (0–360°)','方向 θ（0–360°）'],['Height φ (−90° to +90°)','高度 φ（−90° 至 +90°）'],
+    ['camera on the far side','背面的相机'],['camera','相机'],['Direction (azimuth θ)','方向（方位角 θ）'],['Height (elevation φ)','高度（仰角 φ）'],['In plain words:','通俗描述：'],['Direction θ (0–360°)','方向 θ（0–360°）'],['Height φ (−90° to +90°)','高度 φ（−90° 至 +90°）'],
     ['Shortcuts','快捷角度'],['Top-down','俯视'],['Eye-level front','正面平视'],['Three-quarter','四分之三视角'],['Side','侧面'],['Back','背面'],['Confirm angle → generate','确认角度 → 生成'],['Confirm angle → regenerate','确认角度 → 重新生成'],['Undo move','撤销调整'],['Keep this image','保留这张图像'],
     ['Adjust camera: point on the visible sphere to select an angle. Rotate sphere: drag to bring the far side into view. Arrow keys also rotate the view in that mode. Sliders adjust the selected camera angle.','调整相机：在可见球面上选择角度。旋转球体：拖动球体将背面转到眼前，也可用方向键旋转。滑块用于微调相机角度。'],
     ['Drag the globe or use arrow keys on it to reveal the far side. Your selected camera angle stays fixed.','拖动球体，或聚焦球体后使用方向键，将背面转到眼前。已选相机角度保持不变。'],
