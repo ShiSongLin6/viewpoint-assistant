@@ -1,6 +1,6 @@
 # Viewpoint Assistant for Text-to-Image Generation
 
-README prose word count: 1,652 (code and setup commands not counted)
+README prose word count: 1,690 (code and setup commands not counted)
 
 An interactive assistant that helps people get a generated still image from the camera viewpoint they intend. It sits beside the text prompt, compares the requested viewpoint with the one in the image, and lets the person point the camera on a 360° sphere instead of guessing angle words.
 
@@ -69,7 +69,7 @@ Work before 13 November 2026 was done outside Git and was imported in the first 
 
 - **Google Gemini (Lab 3):** I asked Gemini to review my specification, sphere projection maths and fallback design. The specification, prototype and design decisions were my own. Full record: `docs/lab3/02_PROMPT_LOG.md`.
 - **Claude (Anthropic), in Claude Code (Assignment 2):** I used Claude Code to help organise the brief, set up the repository and implement the expanded interface from my Lab 3 specification, prototype and instructions. This included code assistance for `viewpoint.js`, its tests, `index.html` and `app.js`. I also directed it to run checks and review the code and diagrams against the brief. I reviewed the work and made revisions; the project idea and interaction design were mine. AI-assisted commits carry a `Co-Authored-By: Claude` line.
-- **School bAI platform (17 Nov):** I asked Codex to prepare a fixed 20-input parser review packet, operate the school platform and record replies from its 14 listed models. The replies were compared with locally executed parser outputs. Model names, original replies and discrepancies are in `docs/a2/model_check/04_comparison.md`; I did not take the models' agreement as the answer: I ran the parser locally, fixed #16 and kept #4 ("a rear view mirror") and #5 (the subject turning vs the camera moving) as documented limits. Two further models, DeepSeek V4.1 Flash and Doubao 2.1 Lite, were run in the Doubao app.
+- **School bAI platform (17 Nov):** I asked Codex to prepare a fixed 20-input parser review packet, operate the school platform and record replies from its 14 listed models. The replies were compared with locally executed parser outputs. Model names, original replies and discrepancies are in `docs/a2/model_check/04_comparison.md`; I did not take the models' agreement as the answer: I ran the parser locally, fixed #16 and kept #4 ("a rear view mirror") and #5 (the subject turning vs the camera moving) as documented limits. Two further models, DeepSeek V4.1 Flash and Doubao 2.1 Lite, were run in the Doubao app. Separately from this review, the same Codex implemented, under my direction, the later sphere-viewing rotation and the quaternion orientation that crosses the pole (the two changes in Section 5); I supplied the design observations and directed the work.
 - **Doubao (ByteDance):** used as a sounding board — I talked through my reasoning and self-review each round while it checked the logic back to me. All decisions and the self-review were my own.
 
 ## Additional files
