@@ -149,7 +149,7 @@
   function renderScene(canvas, theta, phi, opts) {
     opts = opts || {};
     var ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
-    var B = opts.frame || (opts.preview ? cameraFrame() : basis(theta, phi)), base = Math.min(w, h) / (opts.preview ? 4.5 / (previewZoom * userZoom) : 6.2);
+    var B = opts.frame || (opts.preview ? cameraFrame() : basis(theta, phi)), base = Math.min(w, h) / (opts.preview ? 4.5 / (previewZoom * userZoom) : opts.short ? 6.2 : 5.1);
     var cam = [CENTRE[0] + B.dir[0] * CAM_D, CENTRE[1] + B.dir[1] * CAM_D, CENTRE[2] + B.dir[2] * CAM_D];
     function proj(P) {
       var q = [P[0] - CENTRE[0], P[1] - CENTRE[1], P[2] - CENTRE[2]];
