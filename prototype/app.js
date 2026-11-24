@@ -706,7 +706,7 @@
     sphere.classList.remove('dragging');
     interactionMode = mode;
     previewTarget = mode === 'light' ? 'light' : 'camera';
-    $('previewModeLabel').textContent = mode === 'light' ? 'Drag the light around the sphere' : 'Live camera preview';
+    $('previewModeLabel').textContent = mode === 'light' ? 'Drag the light around the sphere' : mainSurface === 'sphere' ? 'Camera sphere · drag or select a point' : 'Live camera preview';
     $('lightControls').open = mode === 'light';
     animatePreviewZoom(mode === 'light' ? 0.38 : 1);
     [['btnAutoMode', 'auto'], ['btnRotateMode', 'rotate'], ['btnCameraMode', 'camera'], ['btnLightMode', 'light']].forEach(function (entry) {
@@ -800,7 +800,8 @@
     else if(e.key === '0') { e.preventDefault();setPreviewZoom(1); }
   });
 
-  $('btnSwapView').addEventListener('click', function () {
+  $('btnSwapView').addEventListener('click', function () { swapView(true); });
+  function swapView(focus) {
     if (dragSurface) return;
     var stage=$('cameraStage'), inset=$('viewInset');
     var big=mainSurface==='preview' ? $('cameraPreview') : sphere;
@@ -811,9 +812,9 @@
     $('zoomLevel').parentElement.hidden=mainSurface==='sphere';
     $('previewModeLabel').textContent=mainSurface==='sphere' ? 'Camera sphere · drag or select a point' : 'Live camera preview';
     small.tabIndex=0;big.tabIndex=-1;
-    small.focus({preventScroll:true});
+    if (focus) small.focus({preventScroll:true});
     drawSphere();
-  });
+  }
 
   // The large view and inset share one selected camera pose.
   var preview = $('cameraPreview'), previewDrag = null;
@@ -904,5 +905,5 @@
     drawSphere(); renderResult(); renderThumbs();
   });
   renderEmpty($('result'));
-  drawSphere();
+  swapView(false); // the sphere is the main view by default; the cat preview sits in the inset
 })();
