@@ -720,12 +720,18 @@
   }
   $('btnNightMode').addEventListener('click', function () {
     nightMode = !nightMode;
+    $('cameraStage').classList.toggle('night', nightMode);
     this.setAttribute('aria-pressed', String(nightMode));
     this.setAttribute('aria-label', nightMode ? 'Switch to day mode' : 'Switch to night mode');
     this.innerHTML = nightMode
       ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>'
       : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z"/></svg>';
     drawSphere(); renderResult(); renderThumbs();
+  });
+  $('btnCompact').addEventListener('click', function () {
+    var on = document.querySelector('.grid').classList.toggle('compact');
+    this.setAttribute('aria-pressed', String(on));
+    drawSphere();
   });
   $('btnAutoMode').addEventListener('click', function () { setInteractionMode('auto'); });
   $('btnRotateMode').addEventListener('click', function () { setInteractionMode('rotate'); });

@@ -4,13 +4,13 @@
   var language = 'en';
   try { language = localStorage.getItem('viewpoint-language') === 'zh' ? 'zh' : 'en'; } catch (e) {}
   var pairs = [
-    ['Reset view','重置视图'],['Camera view reset. Light position is unchanged.','相机取景已重置，光源位置保持不变。'],['Sphere view reset. Camera and light positions are unchanged.','球体视图已重置，相机与光源位置保持不变。'],
+    ['Reset view','重置视图'],['Compact','紧凑布局'],['Place the camera view beside the result and versions','把相机视图放到结果和版本旁边'],['Drag the cat to orbit the camera, or drag the light to change illumination. The inset stays in sync.','拖动小猫环绕相机，或拖动光源改变照明。小图同步变化。'],['Drag to turn the globe and bring the far side into view. The camera angle stays fixed.','拖动以转动球体，把背面转到眼前；相机角度保持不变。'],['Point or drag on the visible globe, or drag the preview, to move the camera.','在可见球面上点选或拖动，或拖动预览，来移动相机。'],['Drag the light around the subject, or use the light sliders.','围绕主体拖动光源，或使用光源滑块。'],['Camera view reset. Light position is unchanged.','相机取景已重置，光源位置保持不变。'],['Sphere view reset. Camera and light positions are unchanged.','球体视图已重置，相机与光源位置保持不变。'],
     ['Expand inset view','放大此视图'],['Secondary view','辅助视图'],['Camera sphere · drag or select a point','相机球体 · 拖动或选择位置'],
     ['Suggested positions: use the numbered buttons','建议位置：点击编号按钮选择'],['Choose a suggested camera position','选择建议相机位置'],['Suggestion ','建议 '],
     ['Choose Suggestion 1, 2 or 3 below the preview, or drag the cat in the preview. Then confirm the angle.','点击预览下方的建议 1、2、3，或在预览中拖动小猫，然后确认角度。'],
     ['Preview zoom','预览缩放'],['Zoom out','缩小'],['Zoom in','放大'],['Reset zoom','重置缩放'],
     ['Switch to night mode','切换夜间模式'],['Switch to day mode','切换日间模式'],['Day / night','日间／夜间'],
-    ['Auto: drag the cat to orbit the camera, or drag the light to change illumination. The inset stays in sync. Use the mode buttons to lock an operation.','自动模式：拖猫调整相机，拖光源调整照明，小图同步更新。也可用模式按钮固定操作。'],
+    
     ['Point light · drag on sphere','点光源 · 沿球面拖动'],['Drag the light around the sphere','沿球面拖动光源'],
     ['Point light · drag','点光源 · 拖动'],['Drag the point light to change illumination','拖动点光源调整照明'],
     ['Drag the point light in the large preview, drag its marker in the inset, or use the light sliders for full 360° placement.','可拖动大图中的点光源、小球中的光源标记，或使用滑块进行 360° 定位。'],
