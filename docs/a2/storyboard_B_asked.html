@@ -1,25 +1,454 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Storyboard B — a metaphor: ask instead of guessing</title><style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Segoe UI",Arial,sans-serif;background:#fff;color:#1f2329;padding:26px 28px;width:1400px}
-h1{font-size:26px} .sub{color:#4e5561;font-size:15.5px;margin:6px 0 6px}
-.legend{font-size:13.5px;color:#4e5561;margin-bottom:14px;text-wrap:pretty}
-.row{text-wrap:pretty} .nw{white-space:nowrap}
-.tag{display:inline-block;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:0 6px;border:1px solid;vertical-align:1px;white-space:nowrap}
-.tag.impl{background:#eef7f0;color:#2a6f4d;border-color:#9ccfb4}
-.tag.sim{background:#fff6e5;color:#8a5a0c;border-color:#e6c98a}
-.grid{display:grid;gap:16px;margin-bottom:16px;align-items:stretch}
-.grid.r1{grid-template-columns:1fr 2fr}
-.grid.r2{grid-template-columns:5fr 3fr}
-.rows.stack{grid-template-columns:1fr}
-.frame{border:1px solid #dde1e6;border-radius:14px;padding:14px;background:#fafbfc;display:flex;flex-direction:column;gap:10px}
-.n{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
-.n i{font-style:normal;width:28px;height:28px;border-radius:50%;background:#6b46c1;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
-.rows{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.row{border-radius:9px;background:#fff;border:1px solid #e7eaee;padding:7px 9px;font-size:14px;line-height:1.4}
-.row b{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#646a73;margin-bottom:2px}
-.imgs{display:flex;gap:10px;align-items:flex-start}
-.imgs img{display:block;border-radius:10px;border:1px solid #e3e6ea;background:#fff}
-.imgs.one img,.imgs.half img{width:100%} .imgs.two img{width:calc(50% - 5px)}
-.imgs.col{flex-direction:column} .imgs.col img{width:100%}
-.foot{font-size:12.5px;color:#646a73;margin-top:-4px}
-</style></head><body><h1>Storyboard B — a metaphor: ask instead of guessing</h1><p class="sub">Person describes the angle as a scene (“looking down from the stage”). The assistant does not turn it into a literal angle.</p><p class="legend">Frames are screenshots of <code>prototype/index.html</code> (day mode, light off, Adjust camera mode). <span class="tag impl">implemented</span> runs in the prototype · <span class="tag sim">simulated</span> stand-in for the image model and the viewpoint detector (placeholder 3D render).</p><div class="grid r1"><div class="frame"><div class="n"><i>1</i>Write the prompt</div><div class="rows stack"><div class="row"><b>Person does</b>Types “Make it look like you’re looking down at the cat from the stage”.</div><div class="row"><b>System does</b>Looks for viewpoint words <span class="nw"><span class="tag impl">implemented</span>.</span></div><div class="row"><b>Person sees</b>The prompt; nothing generated yet.</div></div><div class="imgs half"><img src="screens/B1_prompt.png" alt="Write the prompt"></div></div><div class="frame"><div class="n"><i>2</i>The assistant asks</div><div class="rows"><div class="row"><b>Person does</b>Reads the message.</div><div class="row"><b>System does</b>Finds “looking down” but no exact angle: unclear <span class="nw"><span class="tag impl">implemented</span>.</span> Generates nothing and offers three numbered suggestions.</div><div class="row"><b>Person sees</b>“I have not generated anything”, no image yet, and where to choose.</div></div><div class="imgs two"><img src="screens/B2_understood.png" alt="The assistant asks"><img src="screens/B2_result.png" alt="The assistant asks"></div></div></div><div class="grid r2"><div class="frame"><div class="n"><i>3</i>Point at the angle</div><div class="rows"><div class="row"><b>Person does</b>Picks Suggestion 1 with its numbered button below the preview.</div><div class="row"><b>System does</b>Moves the camera there; the preview, the inset and the plain-language readout follow <span class="nw"><span class="tag impl">implemented</span>.</span></div><div class="row"><b>Person sees</b>θ 0°, φ 55°, “high angle, front view” and Confirm.</div></div><div class="imgs one"><img src="screens/B3_camera.png" alt="Point at the angle"></div></div><div class="frame"><div class="n"><i>4</i>Confirm, image generated</div><div class="rows stack"><div class="row"><b>Person does</b>Presses “Confirm angle → generate”.</div><div class="row"><b>System does</b>Sends the confirmed angle to the model <span class="nw"><span class="tag sim">simulated</span>;</span> keeps the version <span class="nw"><span class="tag impl">implemented</span>.</span></div><div class="row"><b>Person sees</b>An image at that angle, “matches request”, listed as version 1.</div></div><div class="imgs col"><img src="screens/B4_result.png" alt="Confirm, image generated"><img src="screens/B4_versions.png" alt="Confirm, image generated"></div></div></div><p class="foot">Viewpoint Assistant · Assignment 2 · every image in the frames is a simulated placeholder, not a generated image.</p></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storyboard B — A4 Portrait Full-Page Plate (2880x3960)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  /* Designed specifically as an A4 Portrait (竖版) Full-Page Plate.
+     Target A4 Printable: 16.0cm wide x 22.0cm high.
+     Canvas: 1440px wide x 1980px high (2x DPI: 2880 x 3960).
+     Aspect ratio: 1 : 1.375 (closely matching A4 portrait 1 : 1.414).
+  */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    padding: 30px 34px 26px;
+    width: 1440px;
+    height: 1980px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Header (Academic Plate Title) */
+  .header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .title-row h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.015em;
+  }
+  .badge-figure {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6366f1;
+    background: #eef2ff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .sub {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.45;
+    margin-top: 6px;
+  }
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #64748b;
+  }
+  .legend-items {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid;
+    line-height: 1.35;
+  }
+  .tag.impl { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+  .tag.sim  { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+
+  /* 2x2 Grid filling the vertical page */
+  .grid-2x2 {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+
+  /* Step Frame Card */
+  .frame {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    overflow: hidden;
+  }
+
+  /* Step Header */
+  .frame-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #6366f1;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  /* Action narrative rows */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .action-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #334155;
+  }
+  .action-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 3px;
+  }
+
+  /* Visual Container filling available frame height */
+  .visual-area {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Images */
+  .visual-area img {
+    display: block;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  /* Frame 1 specific */
+  .frame-1 .visual-area img {
+    max-height: 620px;
+  }
+
+  /* Frame 2: Dual screenshots with equalized capsule containers */
+  .dual-img-wrap {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+  }
+  .dual-img-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 8px;
+    overflow: hidden;
+  }
+  .dual-img-card img {
+    max-width: 100%;
+    max-height: 580px;
+    object-fit: contain;
+  }
+  .dual-caption {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  /* Frame 3: 3D Camera sphere controller - full glorious scale */
+  .frame-3 .visual-area img {
+    max-height: 640px;
+  }
+
+  /* Frame 4: Dual stacked / side-by-side to match Frame 3 */
+  .frame-4-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .frame-4-item-top {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 6px;
+    overflow: hidden;
+  }
+  .frame-4-item-top img {
+    max-height: 340px;
+  }
+  .frame-4-item-bottom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 6px;
+    overflow: hidden;
+  }
+  .frame-4-item-bottom img {
+    max-height: 230px;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  /* --- fine-tuning (copy only): one screenshot scale per page, no floating grey boxes, no duplicate figure badge --- */
+  .badge-figure{display:none}
+  .visual-area{padding:14px}
+  /* single cards (prompt; result; versions) at 0.85 of their on-screen size; the camera card fills the frame width (about 0.72) */
+  .frame-1 .visual-area img{width:362px;max-width:100%;max-height:none;height:auto}
+  .frame-3 .visual-area img{width:100%;max-height:none;height:auto}
+  .dual-img-wrap{align-items:center;gap:14px}
+  .dual-img-card{background:transparent;padding:0;justify-content:center}
+  .dual-img-card img{width:100%;max-height:none;height:auto}
+  .frame-4-layout{justify-content:center;gap:14px}
+  .frame-4-item-top,.frame-4-item-bottom{flex:0 0 auto;background:transparent;padding:0}
+  .frame-4-item-top img,.frame-4-item-bottom img{width:362px;max-width:100%;max-height:none;height:auto}
+  .dual-caption{font-size:13px;margin-top:7px}
+  /* height follows the content: rows size to their screenshots instead of stretching to a fixed 1980 px page */
+  body{height:auto}
+  .grid-2x2{grid-template-rows:auto auto;flex:0 0 auto}
+  .visual-area{flex:1 1 auto}
+  .frame-4 .frame-4-item-top img,.frame-4 .frame-4-item-bottom img{width:400px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title-row">
+    <h1>Storyboard B — A Metaphor: Ask Instead of Guessing</h1>
+    <span class="badge-figure">Figure 2 · Interaction Sequence</span>
+  </div>
+  <p class="sub">Person describes the angle as a scene (“looking down from the stage”). The assistant recognizes the ambiguity, offers clear numbered choices, and generates only after explicit confirmation.</p>
+  <div class="legend-bar">
+    <span>Evidence: captured from <code>prototype/index.html</code> (day mode, light off, Adjust camera mode).</span>
+    <div class="legend-items">
+      <span><span class="tag impl">implemented</span> interactive controls</span>
+      <span><span class="tag sim">simulated</span> image model & viewpoint detector</span>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2x2">
+  
+  <!-- Frame 1 -->
+  <div class="frame frame-1">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Write the prompt</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Types “Make it look like you’re looking down at the cat from the stage”.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Scans for viewpoint words <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          Prompt text entered; no image generated yet.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <img src="screens/B1_prompt.png" alt="Write the prompt">
+    </div>
+  </div>
+
+  <!-- Frame 2 -->
+  <div class="frame frame-2">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">2</div>
+        <div class="step-title">The assistant clarifies</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Reads the clarification feedback.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Flags metaphor: generates nothing; presents 3 numbered angles <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          “I have not generated anything”, explanation, and numbered options.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <div class="dual-img-wrap">
+        <div class="dual-img-card">
+          <img src="screens/B2_understood.png" alt="Understood request with suggestions">
+          <div class="dual-caption">Understood request & 3 suggestions</div>
+        </div>
+        <div class="dual-img-card">
+          <img src="screens/B2_result.png" alt="No image generated yet">
+          <div class="dual-caption">Generation withheld until confirmed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frame 3 -->
+  <div class="frame frame-3">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">3</div>
+        <div class="step-title">Point at the angle</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Picks Suggestion 1 via the numbered button below preview.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Moves camera to θ 0°, φ 55°; updates preview & readout <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          Selected angle on sphere, “high angle, front view”, and Confirm.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <img src="screens/B3_camera.png" alt="Point at the angle">
+    </div>
+  </div>
+
+  <!-- Frame 4 -->
+  <div class="frame frame-4">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">4</div>
+        <div class="step-title">Confirm & keep version</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Presses “Confirm angle → generate”.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Calls generator <span class="tag sim">simulated</span>; records result as Version 1 <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          Generated image at requested angle with “matches request” badge.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <div class="frame-4-layout">
+        <div class="frame-4-item-top">
+          <img src="screens/B4_result.png" alt="Generated image">
+          <div class="dual-caption">Simulated image (θ 0°, φ 55°, matches request)</div>
+        </div>
+        <div class="frame-4-item-bottom">
+          <img src="screens/B4_versions.png" alt="Saved version history">
+          <div class="dual-caption">Saved version history (Version 1 recorded)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>Viewpoint Assistant · Intelligent Interactive Systems (IIS) Assignment 2</span>
+  <span>All displayed renders in frames are simulated 3D placeholders per project scope</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+Real-browser check · headless Microsoft Edge · real mouse drag events · 2026-11-24T15:10:14.426Z
+1) Adjust camera, drag the cat preview upward in steps. Start: 25° / 8° · eye-level, front-right view
+   step 1: 25° / -36° · low angle, front-right view
+   step 2: 25° / -80° · low angle, front-right view
+   step 3: 205° / -57° · low angle, back-left view
+   step 4: 205° / -13° · slightly low angle, back-left view
+   step 5: 205° / 31° · high angle, back-left view
+   step 6: 205° / 75° · high angle, back-left view
+   step 7: 25° / 61° · high angle, front-right view
+   step 8: 25° / 18° · slightly high angle, front-right view
+   step 9: 25° / -26° · slightly low angle, front-right view
+   step 10: 25° / -70° · low angle, front-right view
+   step 11: 205° / -66° · low angle, back-left view
+   step 12: 205° / -22° · slightly low angle, back-left view
+   pole crossings seen (direction flips by 180° while the drag continues): 3; any step where the camera did not move: false
+2) Rotate sphere, drag the globe twice. Angle before: 205° / -22° · slightly low angle, back-left view | after: 205° / -22° · slightly low angle, back-left view
+   selected angle unchanged: true; globe image changed: true
+page errors: []

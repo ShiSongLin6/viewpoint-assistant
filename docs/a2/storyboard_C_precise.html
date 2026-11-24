@@ -1,25 +1,405 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Storyboard C — a precise angle that shortcuts cannot reach</title><style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Segoe UI",Arial,sans-serif;background:#fff;color:#1f2329;padding:26px 28px;width:1400px}
-h1{font-size:26px} .sub{color:#4e5561;font-size:15.5px;margin:6px 0 6px}
-.legend{font-size:13.5px;color:#4e5561;margin-bottom:14px;text-wrap:pretty}
-.row{text-wrap:pretty} .nw{white-space:nowrap}
-.tag{display:inline-block;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:0 6px;border:1px solid;vertical-align:1px;white-space:nowrap}
-.tag.impl{background:#eef7f0;color:#2a6f4d;border-color:#9ccfb4}
-.tag.sim{background:#fff6e5;color:#8a5a0c;border-color:#e6c98a}
-.grid{display:grid;gap:16px;margin-bottom:16px;align-items:stretch}
-.grid.r1{grid-template-columns:1fr 2fr}
-.grid.r2{grid-template-columns:5fr 3fr}
-.rows.stack{grid-template-columns:1fr}
-.frame{border:1px solid #dde1e6;border-radius:14px;padding:14px;background:#fafbfc;display:flex;flex-direction:column;gap:10px}
-.n{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
-.n i{font-style:normal;width:28px;height:28px;border-radius:50%;background:#6b46c1;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
-.rows{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.row{border-radius:9px;background:#fff;border:1px solid #e7eaee;padding:7px 9px;font-size:14px;line-height:1.4}
-.row b{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#646a73;margin-bottom:2px}
-.imgs{display:flex;gap:10px;align-items:flex-start}
-.imgs img{display:block;border-radius:10px;border:1px solid #e3e6ea;background:#fff}
-.imgs.one img,.imgs.half img{width:100%} .imgs.two img{width:calc(50% - 5px)}
-.imgs.col{flex-direction:column} .imgs.col img{width:100%}
-.foot{font-size:12.5px;color:#646a73;margin-top:-4px}
-</style></head><body><h1>Storyboard C — a precise angle that shortcuts cannot reach</h1><p class="sub">An everyday creator works backwards from the angle they have in mind — a low three-quarter rear view — adjusts it exactly, then compares versions.</p><p class="legend">Frames are screenshots of <code>prototype/index.html</code> (day mode, light off, Adjust camera mode). <span class="tag impl">implemented</span> runs in the prototype · <span class="tag sim">simulated</span> stand-in for the image model and the viewpoint detector (placeholder 3D render).</p><div class="grid r1"><div class="frame"><div class="n"><i>1</i>Write the prompt</div><div class="rows stack"><div class="row"><b>Person does</b>Types “…cat figurine, low angle, three-quarter rear view”.</div><div class="row"><b>System does</b>Combines two viewpoint words: height φ −35°, direction θ 135° <span class="nw"><span class="tag impl">implemented</span>.</span></div><div class="row"><b>Person sees</b>The prompt; nothing generated yet.</div></div><div class="imgs half"><img src="screens/C1_prompt.png" alt="Write the prompt"></div></div><div class="frame"><div class="n"><i>2</i>Mismatch, proposal made</div><div class="rows"><div class="row"><b>Person does</b>Looks at the first image and the proposal.</div><div class="row"><b>System does</b>The text-only image comes back eye-level <span class="nw"><span class="tag sim">simulated</span>;</span> the comparison flags a mismatch <span class="tag impl">implemented</span> and moves the camera to the requested angle.</div><div class="row"><b>Person sees</b>“not the angle asked for”; the camera now at “low angle, back-right view”.</div></div><div class="imgs two"><img src="screens/C2_understood.png" alt="Mismatch, proposal made"><img src="screens/C2_result.png" alt="Mismatch, proposal made"></div></div></div><div class="grid r2"><div class="frame"><div class="n"><i>3</i>Fine-tune with the sliders</div><div class="rows"><div class="row"><b>Person does</b>Drags the sliders to θ 150°, φ −20°.</div><div class="row"><b>System does</b>Updates the preview, the inset and the plain-language readout live <span class="nw"><span class="tag impl">implemented</span>.</span> Each completed slider move is one Undo step.</div><div class="row"><b>Person sees</b>Exact numbers, “slightly low angle, back-right view” and the preview.</div></div><div class="imgs one"><img src="screens/C3_camera.png" alt="Fine-tune with the sliders"></div></div><div class="frame"><div class="n"><i>4</i>Confirm and compare versions</div><div class="rows stack"><div class="row"><b>Person does</b>Presses Confirm; can click any version to go back.</div><div class="row"><b>System does</b>Generates a new version at that angle <span class="nw"><span class="tag sim">simulated</span>;</span> keeps all versions <span class="nw"><span class="tag impl">implemented</span>.</span></div><div class="row"><b>Person sees</b>The new image with “matches request”; both versions side by side.</div></div><div class="imgs col"><img src="screens/C4_result.png" alt="Confirm and compare versions"><img src="screens/C4_versions.png" alt="Confirm and compare versions"></div></div></div><p class="foot">Viewpoint Assistant · Assignment 2 · every image in the frames is a simulated placeholder, not a generated image.</p></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storyboard C — A4 Portrait Full-Page Plate (2880x3960)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    padding: 30px 34px 26px;
+    width: 1440px;
+    height: 1980px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .title-row h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.015em;
+  }
+  .badge-figure {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6366f1;
+    background: #eef2ff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .sub {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.45;
+    margin-top: 6px;
+  }
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #64748b;
+  }
+  .legend-items {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid;
+    line-height: 1.35;
+  }
+  .tag.impl { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+  .tag.sim  { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+
+  .grid-2x2 {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+  .frame {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    overflow: hidden;
+  }
+  .frame-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #6366f1;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 18px; font-weight: 700; color: #1e293b; }
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .action-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #334155;
+  }
+  .action-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 3px;
+  }
+  .visual-area {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .visual-area img {
+    display: block;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .frame-1 .visual-area img { max-height: 620px; }
+  .dual-img-wrap {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+  }
+  .dual-img-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 8px;
+    overflow: hidden;
+  }
+  .dual-img-card img { max-width: 100%; max-height: 580px; object-fit: contain; }
+  .dual-caption {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 6px;
+    text-align: center;
+  }
+  .frame-3 .visual-area img { max-height: 640px; }
+  .frame-4-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .frame-4-item-top {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 6px;
+    overflow: hidden;
+  }
+  .frame-4-item-top img { max-height: 340px; }
+  .frame-4-item-bottom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 6px;
+    overflow: hidden;
+  }
+  .frame-4-item-bottom img { max-height: 230px; }
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  /* --- fine-tuning (copy only): one screenshot scale per page, no floating grey boxes, no duplicate figure badge --- */
+  .badge-figure{display:none}
+  .visual-area{padding:14px}
+  /* single cards (prompt; result; versions) at 0.85 of their on-screen size; the camera card fills the frame width (about 0.72) */
+  .frame-1 .visual-area img{width:362px;max-width:100%;max-height:none;height:auto}
+  .frame-3 .visual-area img{width:100%;max-height:none;height:auto}
+  .dual-img-wrap{align-items:center;gap:14px}
+  .dual-img-card{background:transparent;padding:0;justify-content:center}
+  .dual-img-card img{width:100%;max-height:none;height:auto}
+  .frame-4-layout{justify-content:center;gap:14px}
+  .frame-4-item-top,.frame-4-item-bottom{flex:0 0 auto;background:transparent;padding:0}
+  .frame-4-item-top img,.frame-4-item-bottom img{width:362px;max-width:100%;max-height:none;height:auto}
+  .dual-caption{font-size:13px;margin-top:7px}
+  /* height follows the content: rows size to their screenshots instead of stretching to a fixed 1980 px page */
+  body{height:auto}
+  .grid-2x2{grid-template-rows:auto auto;flex:0 0 auto}
+  .visual-area{flex:1 1 auto}
+  .frame-4 .frame-4-item-top img,.frame-4 .frame-4-item-bottom img{width:400px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title-row">
+    <h1>Storyboard C — A Precise Angle Shortcuts Cannot Reach</h1>
+    <span class="badge-figure">Figure 3 · Interaction Sequence</span>
+  </div>
+  <p class="sub">Creator works backwards from a low three-quarter rear view, fine-tunes to exact custom angles via sliders, and compares versions side-by-side.</p>
+  <div class="legend-bar">
+    <span>Evidence: captured from <code>prototype/index.html</code> (day mode, light off, Adjust camera mode).</span>
+    <div class="legend-items">
+      <span><span class="tag impl">implemented</span> interactive controls</span>
+      <span><span class="tag sim">simulated</span> image model & viewpoint detector</span>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2x2">
+  
+  <div class="frame frame-1">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Write the prompt</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Types “…cat figurine, low angle, 3/4 rear view”.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Combines height φ −35° & direction θ 135° <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          Prompt text entered; awaiting generation.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <img src="screens/C1_prompt.png" alt="Write the prompt">
+    </div>
+  </div>
+
+  <div class="frame frame-2">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">2</div>
+        <div class="step-title">Mismatch, proposal made</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Inspects text-only result and proposal.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Flags mismatch; repositions camera to requested angle <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          “not the angle asked for”; camera at “low angle, back-right”.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <div class="dual-img-wrap">
+        <div class="dual-img-card">
+          <img src="screens/C2_understood.png" alt="Angle mismatch banner">
+          <div class="dual-caption">Detected eye-level vs requested angle</div>
+        </div>
+        <div class="dual-img-card">
+          <img src="screens/C2_result.png" alt="Initial image">
+          <div class="dual-caption">First text-only image output</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame frame-3">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">3</div>
+        <div class="step-title">Fine-tune with the sliders</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Drags sliders to exact custom values: θ 150°, φ −20°.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Updates live preview & readout <span class="tag impl">implemented</span>; logs Undo step.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          Numerical readout, “slightly low angle, back-right”, and live view.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <img src="screens/C3_camera.png" alt="Slider fine-tuning on sphere">
+    </div>
+  </div>
+
+  <div class="frame frame-4">
+    <div>
+      <div class="frame-head">
+        <div class="step-num">4</div>
+        <div class="step-title">Confirm & compare versions</div>
+      </div>
+      <div class="actions">
+        <div class="action-box">
+          <span class="action-label">Person does</span>
+          Clicks Confirm; switches between versions.
+        </div>
+        <div class="action-box">
+          <span class="action-label">System does</span>
+          Generates at custom angle <span class="tag sim">simulated</span>; stores both versions <span class="tag impl">implemented</span>.
+        </div>
+        <div class="action-box">
+          <span class="action-label">Person sees</span>
+          New image with “matches request”; version history side-by-side.
+        </div>
+      </div>
+    </div>
+    <div class="visual-area">
+      <div class="frame-4-layout">
+        <div class="frame-4-item-top">
+          <img src="screens/C4_result.png" alt="Fine-tuned output">
+          <div class="dual-caption">Regenerated image (θ 150°, φ −20°, matches request)</div>
+        </div>
+        <div class="frame-4-item-bottom">
+          <img src="screens/C4_versions.png" alt="Version comparison">
+          <div class="dual-caption">Version comparison & history</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>Viewpoint Assistant · Intelligent Interactive Systems (IIS) Assignment 2</span>
+  <span>All displayed renders in frames are simulated 3D placeholders per project scope</span>
+</div>
+
+</body>
+</html>
