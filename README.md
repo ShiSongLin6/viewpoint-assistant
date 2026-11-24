@@ -1,6 +1,6 @@
 # Viewpoint Assistant for Text-to-Image Generation
 
-README prose word count: about 1,540 (code and setup commands not counted)
+README prose word count: 1,652 (code and setup commands not counted)
 
 An interactive assistant that helps people get a generated still image from the camera viewpoint they intend. It sits beside the text prompt, compares the requested viewpoint with the one in the image, and lets the person point the camera on a 360° sphere instead of guessing angle words.
 
