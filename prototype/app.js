@@ -374,7 +374,7 @@
     renderResult(); renderThumbs();
     setUnderstood({
       kind: v.state, asked: v.asked, shows: esc(angleText(v.detected)) + ' <span class="tag sim">simulated detector</span>',
-      msg: 'Showing <b>version ' + v.n + '</b> (' + esc(V.plain(v.theta, v.phi)) + '). The camera marker is back at this version’s angle; adjust it and confirm to make a new version from here.'
+      msg: 'Showing <b>version ' + v.n + '</b> (' + esc(V.plain(v.theta, v.phi)) + '). The camera is back at this angle; adjust and confirm for a new version.'
     });
   }
 
