@@ -149,12 +149,12 @@
   function renderScene(canvas, theta, phi, opts) {
     opts = opts || {};
     var ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
-    var B = opts.frame || (opts.preview ? cameraFrame() : basis(theta, phi)), base = Math.min(w, h) / (opts.preview ? 4.5 / (previewZoom * userZoom) : opts.short ? 6.2 : 5.1);
+    var B = opts.frame || (opts.preview ? cameraFrame() : basis(theta, phi)), base = Math.min(w, h) / (opts.preview ? 4.5 / (previewZoom * userZoom) : opts.short ? 6.2 : 4.6);
     var cam = [CENTRE[0] + B.dir[0] * CAM_D, CENTRE[1] + B.dir[1] * CAM_D, CENTRE[2] + B.dir[2] * CAM_D];
     function proj(P) {
       var q = [P[0] - CENTRE[0], P[1] - CENTRE[1], P[2] - CENTRE[2]];
       var d = dot(q, B.dir), s = base * CAM_D / (CAM_D - d);
-      return { x: w / 2 + dot(q, B.right) * s, y: h / 2 - dot(q, B.up) * s, d: d };
+      return { x: w / 2 + dot(q, B.right) * s, y: h * (opts.preview || opts.short ? 0.5 : 0.56) - dot(q, B.up) * s, d: d }; // result image: subject a little lower, clear of the labels
     }
     function poly(points, fill, stroke) {
       ctx.beginPath();
